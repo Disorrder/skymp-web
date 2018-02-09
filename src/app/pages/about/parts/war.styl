@@ -43,3 +43,63 @@ section#war
         border-width 3px 0 0 3px
         border-image radial-gradient(circle 300px at left top, rgba(black, 1) 0%, rgba(black, 0) 100%) 1
         background-image radial-gradient(ellipse at left top, rgba(#576576, 0.7) 0%, rgba(#576576, 0) 73%)
+
+
+    .row-icons
+        .icon
+            .title
+                color #f6f2e5
+                font-family "Trajan Pro 3"
+                font-size 15px
+                font-weight bold
+                line-height 57.09px
+                letter-spacing -0.5px
+                text-shadow 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000
+
+            img, .title
+                filter drop-shadow(2px 2px 3px #fff)
+
+            .icon-desc
+                position absolute
+                left 50%
+                bottom 103%
+                color #0e0e0e
+                font-family "Trajan Pro 3"
+                font-size 17px
+                font-weight bold
+                line-height 2em
+                letter-spacing -0.52px
+                white-space nowrap
+                padding 0.5rem
+
+                background-image linear-gradient(to top, #fffcf7 0%, #fff1ae 100%)
+                border 2px solid
+                border-image linear-gradient(to bottom, #000 0%, #555 100%) 1
+
+                visibility hidden
+                opacity 0
+                transform translate(-50%, 100%)
+                transition all ease 0.5s
+                transition-delay 0.3s
+
+
+        .icon:hover
+            img, .title
+                filter drop-shadow(2px 2px 5px #fdec10)
+
+            .icon-desc
+                visibility visible
+                opacity 0.7
+                transform translate(-50%, 0)
+
+
+
+    .description
+        color #000
+        font-family "Trajan Pro 3"
+        font-size 35px
+        font-weight bold
+        line-height 57.09px
+        letter-spacing -2px
+        text-shadow 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff
+        filter drop-shadow(0 0 19px #fff)
