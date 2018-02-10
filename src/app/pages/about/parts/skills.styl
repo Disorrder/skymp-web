@@ -1,0 +1,73 @@
+section#skills
+    background-image url($root+'assets/images/bg-skills.png')
+
+    .row-text-1
+        .text-1
+            color #000
+            font-family "Trajan Pro 3"
+            font-size 28px
+            font-weight bold
+            line-height 44.54px
+            letter-spacing -0.51px
+            text-shadow 0 0 4px #fff, 0 0 4px #fff
+
+    .row-text-2
+        .text-1, .text-2
+            color #fff
+            font-family "Trajan Pro 3"
+            font-size 40px
+            font-weight bold
+            line-height 49.75px
+            letter-spacing -0.93px
+            text-shadow 1px 1px 3px #000, 1px 1px 3px #000, 1px 1px 3px #000
+
+        .text-2
+            color #e5c35a
+
+        .text-3
+            color #000000
+            font-family Aniron
+            font-size 26px
+            font-weight 700
+            line-height 34.75px
+            letter-spacing -0.61px
+            text-shadow 0 0 4px #fff, 0 0 4px #fff
+
+    .classes
+        position relative
+        background-image linear-gradient(to bottom, rgba(#fff, 0.5) 0%, rgba(#fff, 0) 100%)
+
+        & > .corner-left, & > .corner-right
+            position absolute
+            width 200px
+            height 200px
+            border 3px solid
+            z-index 0
+        & > .corner-left
+            top -3px
+            left -3px
+            border-image radial-gradient(circle farthest-side at left top, rgba(black, 1) 0%, rgba(black, 0) 100%) 1
+        & > .corner-right
+            top -3px
+            right -3px
+            border-image radial-gradient(circle farthest-side at right top, rgba(black, 1) 0%, rgba(black, 0) 100%) 1
+
+        .text-1
+            color #ffffff
+            font-family "Trajan Pro 3"
+            font-size 39px
+            font-weight bold
+            line-height 1.2em
+            letter-spacing -1px
+            background-image linear-gradient(to top, #e5c35a 0%, #fff 100%)
+            filter drop-shadow(1px 1px 3px #000) drop-shadow(1px 1px 3px #000)
+
+        .text-2
+            color #e8e8e8
+            font-family Aniron
+            font-size 26px
+            font-weight 700
+            line-height 1.2em
+            text-shadow 0 0 4px #000, 0 0 4px #000, 0 0 4px #000
+            letter-spacing -1px
+            transform scaleX(0.8)
