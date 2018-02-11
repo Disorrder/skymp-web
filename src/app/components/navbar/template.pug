@@ -6,4 +6,8 @@ nav#navbar.navbar.navbar-expand-sm
             
         .col.navbar-nav.font-header
             each item, i in _data.menu
-                a.nav-link.text-uppercase.text-center(data-route-name=item.name href=item.url disabled=item.enabled==false) #{item.title}
+                a.nav-link.text-uppercase.text-center(data-route-name=item.name href=item.url disabled=item.enabled==false)
+                    .position-relative
+                        span #{item.title}
+                        svg(role="stars")
+                            polyline(stroke="#fff" stroke-width="2" fill="none")
