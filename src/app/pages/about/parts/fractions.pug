@@ -3,14 +3,49 @@ if !data
     
 section#fractions.section.py-2: .container
     .section-inner
-        //- iconic font try
-        //- h2.section-header.bg-clip-text.text-center.mt-2.d-flex.justify-content-center
-            i.fa.fa-align-right
-            span Фракции и гильдии
-            i.fa.fa-align-left
-
         div.section-header.d-flex.justify-content-center.mt-2
             i.icon.mr-2
             h2.bg-clip-text.text-center Фракции и гильдии
             i.icon.ml-2
             
+        p.text-1.text-center.my-4
+            | Для удобного и эффективного развития своего персонажа
+            | ты можешь вступить в гильдию или фракцию, открывая себя
+            | дополнительные возможности
+        h3.text-center.my-4 нейтральные гильдии и фракции
+            
+        .row.guilds-neutral
+            .col.guild.text-center
+                img.size-contains(src=require('../assets/fractions-img/guildKILLER.png'))
+            .col.guild.text-center
+                img.size-contains(src=require('../assets/fractions-img/guildTHIEF.png'))
+            .col.guild.text-center
+                img.size-contains(src=require('../assets/fractions-img/guildMAGE.png'))
+            .col.guild.text-center
+                img.size-contains(src=require('../assets/fractions-img/guildTOWN.png'))
+            .col.guild.text-center
+                img.size-contains(src=require('../assets/fractions-img/guildORC.png'))
+            .col.guild.text-center
+                img.size-contains(src=require('../assets/fractions-img/guildSEDOBORODIE.png'))
+
+        p.text-1.text-center.my-4 Создавать союзы, держать нейтралитет или враждовать - решать тебе!
+        
+        div.line
+            
+        h3.text-center.my-4 непримиримые враждующие фракции
+        
+        .row.guilds-war.my-4
+            .col.guilds.text-center
+                img(src=require('../assets/fractions-img/guildWEREWOLF.png'))
+                img(src=require('../assets/fractions-img/swords.png'))
+                img(src=require('../assets/fractions-img/guildVAMPIRES.png'))
+            .col.guilds.text-center
+                img(src=require('../assets/fractions-img/guildEMPEROR.png'))
+                img(src=require('../assets/fractions-img/swords.png'))
+                img(src=require('../assets/fractions-img/guildBB.png'))
+            .col.guilds.text-center
+                img(src=require('../assets/fractions-img/guildTALMOR.png'))
+                img(src=require('../assets/fractions-img/swords.png'))
+                img(src=require('../assets/fractions-img/guildBLADES.png'))
+            
+        p.text-1.text-center.my-4 Ненависть между этими фракциями не утихнет никогда!
