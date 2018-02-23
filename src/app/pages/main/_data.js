@@ -14,14 +14,21 @@ module.exports = {
         {url: '#', img: require("assets/images/carousel/carousel-1.png")}
     ],
 
-    articles: []
+    articles: [
+        {
+            id: 1,
+            date: '01.01.2018',
+            title: 'Дневник разработчика SkyMP v.0.9: Синхронизация.',
+            video_yt: '1hfcw74tV8U'
+        }
+    ]
 };
 
-for (let i=1; i <5; i++) {
-    module.exports.articles.push({
-        id: i,
-        title: 'Title '+i,
-        lead: 'Lead '+i,
-        fullText: 'Full text '+i
-    });
-}
+// for (let i=1; i <5; i++) {
+//     module.exports.articles.push({
+//         id: i,
+//         title: 'Title '+i,
+//         lead: 'Lead '+i,
+//         fullText: 'Full text '+i
+//     });
+// }
