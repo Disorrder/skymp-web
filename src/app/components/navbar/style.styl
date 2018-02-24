@@ -31,16 +31,19 @@ $root = "../../../"
 
         &:hover, &.active
             opacity 1
+            .starline
+                opacity 1
 
         &[disabled]
             opacity 0.5
             color #bbb
 
-        svg
+        svg.starline
             width 100%
             height 20px
             // border 1px dotted #bad
             overflow visible
-            // position absolute
-            // left 0
-            // right 0
+            opacity 0
+
+            &.animated
+                transition-duration 1s
