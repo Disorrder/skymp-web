@@ -16,8 +16,8 @@ block body
             .row.no-gutters: .col-12.text-center
                 a#btn-play.font-header.text-uppercase(href="#")
             
-            .row
-                div.col-12
+            .row: div.col-12
+                if (data.carouselItems && data.carouselItems.length)
                     div#carousel.carousel.slide(data-ride="carousel")
                         .carousel-inner
                             each item, i in data.carouselItems
@@ -49,10 +49,13 @@ block body
                                     span.ml-3 #{item.title}
                                 div.article-body.col-12
                                     div(data-content="lead").article-lead #{item.lead}
-                                    if (item.video_yt)
-                                        iframe.article-video(width="100%" src=`https://www.youtube.com/embed/${item.video_yt}` frameborder="0" allow="encrypted-media" allowfullscreen)
                                     if (item.fullText)
                                         div(data-content="fullText").article-full-text.collapse #{item.fullText}
+                                    if (item.media)
+                                        div.article-media
+                                            if (item.media.source === 'youtube')
+                                                iframe.article-video(width="100%" src=`https://www.youtube.com/embed/${item.media.id}` frameborder="0" allow="encrypted-media" allowfullscreen)
+                                
                                 div.article-footer.text-center
                                     if (item.fullText)
                                         a.article-more.bg-grad-center.border-grad-center.animated(data-toggle="collapse" data-target=`#article-${item.id} .collapse`) Подробнее 
