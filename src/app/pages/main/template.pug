@@ -16,7 +16,7 @@ block body
             .row.no-gutters: .col-12.text-center
                 a#btn-play.font-header.text-uppercase(href="#")
             
-            .row: div.col-12
+            .row.mt-3: div.col-12
                 if (data.carouselItems && data.carouselItems.length)
                     div#carousel.carousel.slide(data-ride="carousel")
                         .carousel-inner
@@ -42,7 +42,7 @@ block body
                 div#articles.col-sm-9
                     div.panel.border-grad-down
                         h2.text-center.text-uppercase.mb-0 Новости
-                        each item in data.articles
+                        each item in data.articles.reverse()
                             article.col-12(id=`article-${item.id}` data-item-id="1")
                                 h4.article-header.bg-grad-right.border-grad-right
                                     span.date #{item.date}

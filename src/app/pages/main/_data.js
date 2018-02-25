@@ -9,12 +9,12 @@ module.exports = {
     ],
 
     carouselItems: [
-        // {url: '#', img: require("assets/images/carousel/DutIHtklYcU.jpg")},
-        // {url: '#', img: require("assets/images/carousel/ETS22p7alP0.jpg")},
-        // {url: '#', img: require("assets/images/carousel/gE8-nn3THAM.jpg")},
-        // {url: '#', img: require("assets/images/carousel/hITL_GtkeUo.jpg")},
-        // {url: '#', img: require("assets/images/carousel/L3m766qk3f8.jpg")},
-        // {url: '#', img: require("assets/images/carousel/trVfZx2rMV8.jpg")}
+        {url: '#', img: require("assets/images/carousel/DutIHtklYcU.jpg")},
+        {url: '#', img: require("assets/images/carousel/ETS22p7alP0.jpg")},
+        {url: '#', img: require("assets/images/carousel/gE8-nn3THAM.jpg")},
+        {url: '#', img: require("assets/images/carousel/hITL_GtkeUo.jpg")},
+        {url: '#', img: require("assets/images/carousel/L3m766qk3f8.jpg")},
+        {url: '#', img: require("assets/images/carousel/trVfZx2rMV8.jpg")}
     ],
 
     articles: [
