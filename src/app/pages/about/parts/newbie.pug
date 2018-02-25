@@ -10,7 +10,7 @@ section#newbie.section.py-2: .container
         div#newb-carousel.carousel.carousel-flex.slide(data-ride="newb-carousel")
             .carousel-inner.border-grad-center
                 each item, i in data.newbieItems
-                    .carousel-item.px-4(class=`${i==0 ? 'active' : ''}`)
+                    .carousel-item.px-4.animated(class=`${i==0 ? 'active' : ''}`)
                         h3.d-flex.justify-content-between.align-items-center.text-uppercase
                             img.icon1(src=item.icon1)
                             span.text-center #{item.title}
