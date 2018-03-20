@@ -5,20 +5,23 @@ html(ng-app="app")
         meta(name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.3, maximum-scale=1.5, user-scalable=yes")
         //- meta(name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no")
         
-        meta(property="og:type" content="website")
-        meta(property="og:url" content="http://skymp.ru")
-        meta(property="og:title" content="Skyrim Multiplayer")
-        meta(property="og:description" content="Играй в Skyrim с друзьями онлайн!")
-        meta(property="og:image" content=require("assets/logo/logo-white.png"))
-        link(rel="image_src" href=require("favicon.png"))
-
         link(rel="shortcut icon" href="favicon.png" type="image/x-icon")
-
         script(src="/config.js")
 
         block head
-            title SkyMP
+            title SkyMP - Skyrim Multiplayer
+            
+            meta(property="og:type" content="website")
+            meta(property="og:url" content="http://skymp.ru")
+            meta(property="og:title" content="Skyrim Multiplayer")
+            meta(property="og:description" content="Играй в Skyrim с друзьями онлайн!")
+            meta(property="og:image" content=require("assets/logo/logo-black.jpg"))
+            link(rel="image_src" href=require("assets/logo/logo-black.jpg"))
 
+            meta(name="keywords" content="skyrim, online, multiplayer, скайрим, онлайн, мультиплеер, TES, the elder scrolls")
+            meta(name="description" content="Первый и единственный в своём роде сервер для игры в Skyrim!")
+            meta(name="robots" content="index,follow")
+                
     body
         .
             <!-- Yandex.Metrika counter -->
