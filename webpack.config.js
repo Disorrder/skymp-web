@@ -143,6 +143,7 @@ module.exports = {
            filename: 'index.html',
            template: 'app/pages/main/template.pug',
            inject: 'head',
+           chunks: ['commons', 'main'],
            chunksSortMode: chunksSortOrder(['commons', 'main']),
        }),
 
@@ -150,6 +151,7 @@ module.exports = {
            filename: 'about.html',
            template: 'app/pages/about/template.pug',
            inject: 'head',
+           chunks: ['commons', 'about'],
            chunksSortMode: chunksSortOrder(['commons', 'about']),
        })
     ]

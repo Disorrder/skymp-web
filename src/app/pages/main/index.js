@@ -10,3 +10,8 @@ import './style.styl';
 
 // page controller
 location.route = 'main';
+
+// Redirect to /about if first time on this site
+if (!localStorage.about_seen) {
+    location.href = '/about';
+}

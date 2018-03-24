@@ -11,3 +11,8 @@ import './style.styl';
 
 // page controller
 location.route = 'about';
+
+// Set seen flag
+if (!localStorage.about_seen) {
+    localStorage.about_seen = true;
+}
