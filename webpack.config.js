@@ -44,8 +44,10 @@ module.exports = {
     context: path.resolve(cfg.path.app),
     watch: flags.watch,
     entry: {
-        main: `app/pages/main/index.js`,
-        about: `app/pages/about/index.js`,
+        vendor: 'app/vendor.js',
+        app: 'app/index.js',
+        // main: `app/pages/main/index.js`,
+        // about: `app/pages/about/index.js`,
     },
     output: {
         path: path.resolve(__dirname, cfg.path.build),
@@ -142,17 +144,8 @@ module.exports = {
        new HtmlWebpackPlugin({
            filename: 'index.html',
            template: 'app/pages/main/template.pug',
-           inject: 'head',
-           chunks: ['commons', 'main'],
-           chunksSortMode: chunksSortOrder(['commons', 'main']),
-       }),
-
-       new HtmlWebpackPlugin({
-           filename: 'about.html',
-           template: 'app/pages/about/template.pug',
-           inject: 'head',
-           chunks: ['commons', 'about'],
-           chunksSortMode: chunksSortOrder(['commons', 'about']),
+           inject: 'body',
+           chunksSortMode: chunksSortOrder(['vendor', 'app']),
        })
     ]
 }

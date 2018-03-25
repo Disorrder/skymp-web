@@ -6,8 +6,16 @@ nav#navbar.navbar.navbar-expand-sm
             
         .col.navbar-nav.font-header
             each item, i in _data.menu
-                a.nav-link.text-uppercase.text-center(data-route-name=item.name href=item.url disabled=item.enabled==false)
-                    .position-relative
-                        span #{item.title}
-                        svg.starline.animated(role="starline")
-                            polyline(stroke="#fff" stroke-width="2" fill="none")
+                if (item.route)
+                    router-link.nav-link.text-uppercase.text-center(:to=`{name: "${item.name}"}`)
+                        .position-relative
+                            span #{item.title}
+                            //- svg.starline.animated(role="starline")
+                                polyline(stroke="#fff" stroke-width="2" fill="none")
+
+                else
+                    a.nav-link.text-uppercase.text-center(data-route-name=item.name href=item.url disabled=item.enabled==false)
+                        .position-relative
+                            span #{item.title}
+                            //- svg.starline.animated(role="starline")
+                                polyline(stroke="#fff" stroke-width="2" fill="none")
