@@ -1,20 +1,24 @@
 body
-    min-height: 100vh
-    background: #FAFAFA
-    font-family: 'Times New Roman', sans-serif
-    // font-family: Arial, sans-serif
-    color: white
+    min-height 100vh
+    background #FAFAFA
+    font-family 'Times New Roman', sans-serif
+    // font-family Arial, sans-serif
+    color white
 
 [disabled]
-    cursor: not-allowed
+    cursor not-allowed
 
 ul
-    list-style: none
-    padding-left: 0
+    list-style none
+    padding-left 0
 
 a, a:hover, a:active
-    color: inherit
-    // text-decoration: underline
+    color inherit
+    // text-decoration underline
+
+.layout
+    position relative
+    min-height 100%
 
 main
     min-height 100%
@@ -36,17 +40,17 @@ img.size-contains
 
 .ru-quotes
     &:before
-        content: '“'
+        content '“'
     &:after
-        content: '”'
+        content '”'
 
 
 .space-l, .space-lr
     &:before
-        content: ' '
+        content ' '
 .space-r, .space-lr
     &:after
-        content: ' '
+        content ' '
 
 .animated
     transition all ease 0.2s

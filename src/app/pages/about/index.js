@@ -11,5 +11,11 @@ export default {
         if (!localStorage.about_seen) {
             localStorage.about_seen = true;
         }
+    },
+    mounted() {
+
+    },
+    destroyed() {
+        
     }
 };

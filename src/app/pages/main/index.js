@@ -8,7 +8,7 @@ export default {
         }
     },
     created() {
-        if (true || !localStorage.about_seen) {
+        if (!localStorage.about_seen) {
             location.href = '/about';
         }
     }

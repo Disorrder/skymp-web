@@ -143,7 +143,7 @@ module.exports = {
 
        new HtmlWebpackPlugin({
            filename: 'index.html',
-           template: 'app/pages/main/template.pug',
+           template: 'app/layout.pug',
            inject: 'body',
            chunksSortMode: chunksSortOrder(['vendor', 'app']),
        })

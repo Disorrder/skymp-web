@@ -53,6 +53,14 @@ html(ng-app="app")
             <noscript><div><img src="https://mc.yandex.ru/watch/48131531" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
             <!-- /Yandex.Metrika counter -->
 
-
-        div#app: block body
-            div#viewport Loading...
+        div#app.layout(:class="'layout-'+$route.name")
+            div.background
+                div.bg-top
+                    img(src=require("assets/images/bg-stars.png") width="100%" height="auto")
+                div.bg-bottom
+                    img(src=require("assets/images/bg-main.png") width="100%" height="auto")
+            
+            include components/navbar/template.pug
+            block body
+                router-view
+            include components/footer/template.pug

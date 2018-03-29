@@ -1,54 +1,42 @@
-extends ../../layout.pug
+if !data
+    - var data = require('./_data');
 
-block body
-    if !data
-        - var data = require('./_data');
-    
-    div#about.layout
-        div.bg-top
-            img(src=require("assets/images/bg-stars.png") width="100%" height="auto")
-        div.bg-bottom
-            img(src=require("assets/images/bg-main.png") width="100%" height="auto")
-        
-        include ../../components/navbar/template.pug
+div#about
+    main
+        section#begin.section.pb-4: .container
+            div.row: .col-12.text-center
+                h1.section-header.bg-clip-text Особенности проекта
+                img(src=require('./assets/begin-header.png'))
+                    
+            div.row.my-4.justify-content-center
+                for item in data.sections
+                    .col-sm-4.col-md-3.d-flex.flex-column.my-2
+                        a.section-preview.d-flex.flex-column.justify-content-end.align-items-stretch.text-center(href='#'+item.name)
+                            div.section-preview-icon.d-flex.justify-content-center.align-items-center
+                                img.animated.shadow.my-2(src=item.icon)
+                            div.section-preview-text.animated #{item.title}
+                        
+            div.row: .col-12.begin-description.text-center.mt-5
+                p.
+                    Признайтесь себе, что хоть раз, но вы мечтали об этом... 
+                    Побродить по Осеннему лесу, полюбоваться красотами 
+                    Моря Призраков, посмотреть на долину с высоты 
+                    <br>
+                    Глотки Мира - <em>вместе с друзьями!</em> 
 
-        main
-            section#begin.section.pb-4: .container
-                div.row: .col-12.text-center
-                    h1.section-header.bg-clip-text Особенности проекта
-                    img(src=require('./assets/begin-header.png'))
-                        
-                div.row.my-4.justify-content-center
-                    for item in data.sections
-                        .col-sm-4.col-md-3.d-flex.flex-column.my-2
-                            a.section-preview.d-flex.flex-column.justify-content-end.align-items-stretch.text-center(href='#'+item.name)
-                                div.section-preview-icon.d-flex.justify-content-center.align-items-center
-                                    img.animated.shadow.my-2(src=item.icon)
-                                div.section-preview-text.animated #{item.title}
-                            
-                div.row: .col-12.begin-description.text-center.mt-5
-                    p.
-                        Признайтесь себе, что хоть раз, но вы мечтали об этом... 
-                        Побродить по Осеннему лесу, полюбоваться красотами 
-                        Моря Призраков, посмотреть на долину с высоты 
-                        <br>
-                        Глотки Мира - <em>вместе с друзьями!</em> 
- 
-                    p.
-                        Теперь это стало возможным благодаря проекту SkyMP! 
-                    p.desc-3.
-                        Охотьтесь и торгуйтесь,творите и разрушайте, 
-                        примите участие в кровопролитной битве фракций.
-                        
-                div.row: .col-xl-10.offset-xl-1.col-sm-11.begin-description-2.bg-clip-text
-                    p Займите своё место в мире SkyMP и определите его судьбу!
- 
-            include ./parts/newbie.pug
-            include ./parts/craft.pug
-            include ./parts/economics.pug
-            include ./parts/fractions.pug
-            include ./parts/war.pug
-            include ./parts/skills.pug
-            include ./parts/magic.pug
-                                                                    
-        include ../../components/footer/template.pug
+                p.
+                    Теперь это стало возможным благодаря проекту SkyMP! 
+                p.desc-3.
+                    Охотьтесь и торгуйтесь,творите и разрушайте, 
+                    примите участие в кровопролитной битве фракций.
+                    
+            div.row: .col-xl-10.offset-xl-1.col-sm-11.begin-description-2.bg-clip-text
+                p Займите своё место в мире SkyMP и определите его судьбу!
+
+        include ./parts/newbie.pug
+        include ./parts/craft.pug
+        include ./parts/economics.pug
+        include ./parts/fractions.pug
+        include ./parts/war.pug
+        include ./parts/skills.pug
+        include ./parts/magic.pug
