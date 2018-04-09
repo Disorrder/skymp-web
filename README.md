@@ -1,20 +1,24 @@
-# skymp-web
+# skymp.ru website
+`npm i` - Update dependencies
 
-## Before run
-<!--
- - create `config.js` file (example in config.default.js)
- - `sudo npm i -g webpack` (install once)
- - `sudo npm i -g webpack-dev-server` (install once if you want to develope)
--->
- - `sudo npm i` (each time after pull)
-
-## Dev run
+## Development
+You need to run two process simultaneously:
 `npm run dev`
-If browser didn't open automatically, console will show you address to open
+`npm run api`
 
-## Production build
-`npm run build-prod` - only Unix! \
-`npm run build-prod-win` - only Windows
+### global deps (if need, usually for dev on windows)
+`npm i -g webpack webpack-dev-server pm2 nodemon`
 
-## Dedicated run
-`npm run build && npm run server` - run with simple http-server
+## Staging
+clone repo into /var/www/app_name and run
+`git pull && npm run vds` each time after push (build + api)
+And replace website.conf if it has changed.
+TODO some CI platform for auto deploy (gitlab-runner)
+
+
+## Production
+`npm run build` - Build with Webpack
+
+
+# API
+`npm run api` - dev startup
