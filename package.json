@@ -29,9 +29,17 @@
     "webpack-notifier": "^1.6.0"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^4.0.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
+    "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-passport": "^4.0.1",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.8.1",
+    "mongoose": "^5.0.13",
+    "passport-local": "^1.0.0",
     "popper.js": "^1.14.3",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
@@ -40,8 +48,7 @@
   "scripts": {
     "api": "nodemon api",
     "dev": "webpack-dev-server --progress",
-    "build": "webpack --mode production",
-    "api": "nodemon api"
+    "build": "webpack --mode production"
   },
   "engine": {
     "node": ">=6.6.0"
