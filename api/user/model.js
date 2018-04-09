@@ -3,10 +3,10 @@ var Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
 
 var schema = new Schema({
-    active: Boolean,
     email: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
     username: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
-    password: { type: String, required: true, select: false }
+    password: { type: String, required: true, select: false },
+    characters: [Schema.Types.ObjectId],
 }, { timestamps: true });
 
 schema.methods.verifyPassword = function(password) {

@@ -8,6 +8,9 @@ var router = new Router();
 
     route = require('./user');
     router.use('/user', route.routes(), route.allowedMethods());
+
+    route = require('./character');
+    router.use('/character', route.routes(), route.allowedMethods());
 }
 
 router.get('/', (ctx, next) => {
