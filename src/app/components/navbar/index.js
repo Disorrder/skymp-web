@@ -11,7 +11,7 @@ Vue.component('navbar', {
                 {name: 'about', title: 'Особенности'},
                 {name: 'support', url: '#support', title: 'Поддержка', enabled: false},
                 {name: 'shop', url: '#shop', title: 'Магазин', enabled: false},
-                {name: 'profile', url: '#profile', title: 'Профиль', enabled: false},
+                {name: 'profile', title: 'Профиль', enabled: true},
             ]
         }
     },

@@ -1,4 +1,4 @@
 window.config = {
-    api: '/api',
-    // api: 'https://httpbin.org/anything/api',
-}
+    // api: '/api',
+    api: `//${location.hostname}:2000`,
+};

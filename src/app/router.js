@@ -7,12 +7,29 @@ var router = new VueRouter({
     routes: [
         {name: 'main', path: '/', component: require('app/pages/main').default},
         {name: 'about', path: '/about', component: require('app/pages/about').default},
+        {name: 'login', path: '/login', component: require('app/pages/login').default},
+        {name: 'profile', path: '/profile', meta: {needAuth: true}, component: require('app/pages/profile').default},
     ]
 });
 
 export default router;
 
 router.beforeEach((to, from, next) => {
+    // TODO: get app, auth to vuex
+    console.log(to, to.matched, to.meta);
+
+    if (to.meta.needAuth) {
+        $.get(config.api+'/user')
+            .then((res) => {
+                next();
+            })
+            .catch(() => {
+                next({path: '/login', query: { redirect: to.fullPath }});
+            })
+        ;
+        return;
+    }
+
     next();
     $(window).trigger('resize');
 });
