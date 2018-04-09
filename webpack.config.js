@@ -4,7 +4,6 @@ const path = require('path');
 const webpack = require('webpack');
 
 var cfg = require('./buildconfig.json');
-const npm = require('./package.json');
 const pug = require('pug');
 
 const WebpackNotifierPlugin = require('webpack-notifier');
@@ -32,7 +31,6 @@ function isWin() { return os.platform() == 'win32' }
 
 var flags = {
     watch: false,
-    // watch: isDev(),
     clean: isProd(),
     sourcemaps: isDev() && !isMac(),
     notify: isDev(),
@@ -41,13 +39,12 @@ var flags = {
 console.log('Builder is running in', process.env.NODE_ENV, 'mode.');
 
 module.exports = {
+    mode: process.env.NODE_ENV,
     context: path.resolve(cfg.path.app),
     watch: flags.watch,
     entry: {
-        vendor: 'app/vendor.js',
-        app: 'app/index.js',
-        // main: `app/pages/main/index.js`,
-        // about: `app/pages/about/index.js`,
+        vendor: `app/vendor.js`,
+        app: `app/index.js`,
     },
     output: {
         path: path.resolve(__dirname, cfg.path.build),
@@ -81,8 +78,8 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.js$/, loader: "babel-loader", exclude: [/node_modules/, /bower_components/], query: { presets: ['es2015', 'stage-2'] } },
-            { test: /\.(pug|jade)$/, loader: "pug-loader" },
+            // { test: /\.js$/, loader: "babel-loader", exclude: [/node_modules/, /bower_components/], query: { presets: ['es2015', 'stage-2'] } },
+            { test: /\.(pug|jade)$/, loader: "pug-loader", options: {} },
             { test: /\.css$/, use: ["style-loader", "css-loader"] },
             { test: /\.styl$/, use: ["style-loader", "css-loader", "stylus-loader"] },
             { test: /\.font\.(js|json)$/, use: ["style-loader", "css-loader", "fontgen-loader"] },
@@ -106,32 +103,21 @@ module.exports = {
             debug: true
         }),
 
-        new webpack.HotModuleReplacementPlugin(),
-
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'commons',
-            filename: 'commons.js'
-        }),
-
-        new webpack.DefinePlugin({
-            'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: 'index.pug',
+            inject: 'body',
         }),
 
         new CopyWebpackPlugin([
             { from: 'config.js' },
             { from: 'favicon.*' },
-            { from: 'robots.txt' },
+            // { from: 'robots.txt' },
         ]),
 
-        // new SplitByPathPlugin([
-        //     {
-        //         name: 'vendor',
-        //         path: [
-        //             path.resolve('./node_modules'),
-        //             path.resolve('./bower_components')
-        //         ]
-        //     }
-        // ]),
+        // new webpack.DefinePlugin({
+        //     'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        // }),
 
         new webpack.ProvidePlugin({
            $: 'jquery',
@@ -140,28 +126,16 @@ module.exports = {
            Popper: ['popper.js', 'default'],
            _: 'lodash',
        }),
-
-       new HtmlWebpackPlugin({
-           filename: 'index.html',
-           template: 'app/layout.pug',
-           inject: 'body',
-           chunksSortMode: chunksSortOrder(['vendor', 'app']),
-       })
     ]
 }
 
-if (cfg.api && cfg.api.active) {
-    if (!module.exports.devServer.proxy) module.exports.devServer.proxy = {};
-    Object.assign(module.exports.devServer.proxy, {
-        '/api/**': { target: `http://${cfg.api.host}:${cfg.api.port}`, secure: false }
-    });
-}
-
 var fs = require('fs');
-{ // check config.js
-    let configPath = path.resolve(cfg.path.app, 'config.js');
-    let configDefPath = path.resolve(cfg.path.app, 'config.default.js');
-    if (!fs.existsSync(configPath)) {
-        fs.writeFileSync(configPath, fs.readFileSync(configDefPath));
-    }
+{ // check configs
+    ['src/config', 'api/config'].map((v) => {
+        let cfgPath = path.resolve('.', v + '.js');
+        if (!fs.existsSync(cfgPath)) {
+            let defPath = path.resolve('.', v + '.default.js');
+            fs.writeFileSync(cfgPath, fs.readFileSync(defPath));
+        }
+    });
 }
