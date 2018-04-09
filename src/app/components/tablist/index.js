@@ -43,15 +43,17 @@ export default class Tablist {
     getPanels() {
         return this.el.find('[role="tabpanel"]');
     }
+
+    static initialize() {
+        // Be careful of conflicts with Bootstrap scripts
+        $('[role="tablist"]').each((i, v) => {
+            new Tablist(v);
+        });
+    }
 }
 
 // Init all roles on document load
-$(() => {
-    // Be careful of conflicts with Bootstrap scripts
-    $('[role="tablist"]').each((i, v) => {
-        new Tablist(v);
-    });
-});
+$(Tablist.initialize);
 
 // utils
 function parseCssTime(t) {

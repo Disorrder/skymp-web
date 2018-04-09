@@ -1,42 +1,21 @@
 import './style.styl';
-import '../starline';
 
-function randomFloat(a, b) {
-    return a + Math.random() * (b - a);
-}
-function randomInt(a, b) {
-    return Math.floor( randomFloat(a, b+1) );
-}
+import Vue from 'vue';
+Vue.component('navbar', {
+    template: require('./template.pug')(),
+    data() {
+        return {
+            menu: [
+                {name: 'main', title: 'Новости'},
+                {name: 'forum', title: 'Форум', url: 'http://forum.skymp.ru/'},
+                {name: 'about', title: 'Особенности'},
+                {name: 'support', url: '#support', title: 'Поддержка', enabled: false},
+                {name: 'shop', url: '#shop', title: 'Магазин', enabled: false},
+                {name: 'profile', url: '#profile', title: 'Профиль', enabled: false},
+            ]
+        }
+    },
+    mounted() {
 
-function createSvgNode(name, attrs = {}) {
-    var el = document.createElementNS('http://www.w3.org/2000/svg', name);
-    for (var k in attrs)
-        el.setAttribute(k, attrs[k]);
-    return el;
-}
-
-class NavbarController {
-    constructor() {
-        this.links = [];
-        $('#navbar .nav-link').each((k, v) => {
-            this.links.push({el: v});
-        });
-
-        this.updateActive();
     }
-
-    updateActive() {
-        this.links.forEach((v) => {
-            var $v = $(v);
-            if ($v.data('routeName') === location.route) {
-                $v.addClass('active');
-            } else {
-                $v.removeClass('active');
-            }
-        });
-    }
-}
-
-$(() => {
-    new NavbarController();
 });

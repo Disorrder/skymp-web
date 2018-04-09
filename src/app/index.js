@@ -17,5 +17,4 @@ var app = new Vue({
 
 });
 
-window.app = app;
-console.log(app);
+window._app = app;

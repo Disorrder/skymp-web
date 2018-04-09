@@ -1,4 +1,5 @@
 import './style.styl';
+import Tablist from 'app/components/tablist';
 
 export default {
     template: require('./template.pug')(),
@@ -13,9 +14,9 @@ export default {
         }
     },
     mounted() {
-
+        $(Tablist.initialize);
     },
     destroyed() {
-        
+
     }
 };

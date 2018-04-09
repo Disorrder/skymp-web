@@ -1,21 +1,21 @@
-- var _data = require('./_data');
-    
 nav#navbar.navbar.navbar-expand-sm
     .container
-        a.navbar-brand.d-none.d-lg-block(href="/")
+        router-link.navbar-brand.d-none.d-lg-block(:to="{name: 'main'}")
+            //- img(src=require("assets/logo/logo-white.png"))
             
-        .col.navbar-nav.font-header
-            each item, i in _data.menu
-                if (item.route)
-                    router-link.nav-link.text-uppercase.text-center(:to=`{name: "${item.name}"}`)
-                        .position-relative
-                            span #{item.title}
-                            //- svg.starline.animated(role="starline")
-                                polyline(stroke="#fff" stroke-width="2" fill="none")
-
-                else
-                    a.nav-link.text-uppercase.text-center(data-route-name=item.name href=item.url disabled=item.enabled==false)
-                        .position-relative
-                            span #{item.title}
-                            //- svg.starline.animated(role="starline")
-                                polyline(stroke="#fff" stroke-width="2" fill="none")
+        ul.col.navbar-nav.font-header 
+            li.nav-item(v-for="item in menu")
+                a.nav-link.text-uppercase.text-center(v-if="item.url" :data-route-name="item.name" :href="item.url" :disabled="item.enabled==false")
+                    .position-relative
+                        span {{item.title}}
+                        starline
+                        //- svg.starline.animated(role="starline")
+                            polyline(stroke="#fff" stroke-width="2" fill="none")
+                        
+                router-link.nav-link.text-uppercase.text-center(v-else :to="{name: item.name}")
+                    .position-relative
+                        span {{item.title}}
+                        starline
+                        //- svg.starline.animated(role="starline")
+                            polyline(stroke="#fff" stroke-width="2" fill="none")
+        
