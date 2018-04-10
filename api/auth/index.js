@@ -47,4 +47,10 @@ router.post('/register', async (ctx) => {
     ctx.body = user;
 });
 
+router.get('/logout', (ctx) => {
+    var user = ctx.state.user;
+    ctx.logout();
+    ctx.body = user ? `Good bye, ${user.username} :c` : '???';
+});
+
 module.exports = router;

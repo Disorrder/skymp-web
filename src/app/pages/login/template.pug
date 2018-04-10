@@ -6,7 +6,7 @@ div#login.content
             h3.text-center Авторизация
             form#auth.mt-4.mb-0(@submit="login")
                 .form-group
-                    input.form-control(name="login" placeholder="Логин / почта" v-model="authData.username")
+                    input.form-control(name="username" placeholder="Логин / почта" v-model="authData.username")
                 .form-group
                     input.form-control(name="password" placeholder="Пароль" v-model="authData.password")
                 

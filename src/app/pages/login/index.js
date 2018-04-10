@@ -24,12 +24,12 @@ export default {
             this.formDisabled = true;
             this.statusText = '';
             $.post(config.api+'/auth/login', this.authData)
-                .done((res) => {
-                    console.log('done', res.data, this, this.$root);
-                    this.$root.saveCurrentUser(res);
+                .done((user) => {
+                    this.$root.saveCurrentUser(user);
                     if (this.$route.query.redirect) {
                         this.$router.push(this.$route.query.redirect);
                     }
+                    localStorage.lastLogin = user.username;
                 })
                 .fail((res) => {
                     this.statusText = res.responseText;
@@ -44,10 +44,14 @@ export default {
 
     },
     mounted() {
-        $('#auth [name="login"]').focus();
-        if (this.$route.query.login) {
-            $('#auth [name="login"]').val(this.$route.query.login);
-            $('#auth [name="password"]').focus();
+        var loginControl = $('#auth input[name="username"]');
+        var passControl = $('#auth input[name="password"]');
+        
+        this.authData.username = this.$route.query.username || localStorage.lastLogin;
+        if (!this.authData.username) {
+            loginControl.focus();
+        } else {
+            passControl.focus();
         }
     }
 };
