@@ -2,9 +2,28 @@ const User = require('./model');
 const Router = require('koa-router');
 var router = new Router();
 
-router.post('/', async (ctx) => {
-    // Create
-    ctx.throw(403);
+// Registration
+router.post('/add', async (ctx) => {
+    var data = ctx.request.body;
+
+    if (data.password !== data.password_repeat) {
+        ctx.throw(400, 'ERR_PASSWORDS_MISMATCH');
+    }
+
+    var user = new User(data);
+    try {
+        await user.save();
+        await ctx.login(user);
+    } catch(e) {
+        if (e.code === 11000) {
+            ctx.throw(400, 'ERR_USER_IS_ALREADY_EXISTS');
+        } else {
+            console.log('500', '/user/add', e);
+            ctx.throw(500, e.message);
+        }
+        return;
+    }
+    ctx.body = user;
 });
 
 router.get('/', async (ctx) => {

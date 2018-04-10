@@ -6,7 +6,9 @@ var schema = new Schema({
     email: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
     username: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
     password: { type: String, required: true, select: false },
-    characters: [Schema.Types.ObjectId],
+    enterTries: [],
+    characters: [{type: Schema.Types.ObjectId, ref: 'Character'}],
+    charactersMax: { type: Number, default: 1 },
 }, { timestamps: true });
 
 schema.methods.verifyPassword = function(password) {

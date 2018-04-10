@@ -4,9 +4,10 @@ var Schema = mongoose.Schema;
 // const ObjectId = Schema.Types.ObjectId;
 
 var schema = new Schema({
-    name: String,
-    serverName: String,
-    ownerId: Schema.Types.ObjectId,
+    name: {type: String, require: true, unique: true},
+    server: {type: Schema.Types.ObjectId, ref: 'Server', require: true},
+    owner: {type: Schema.Types.ObjectId, ref: 'User', require: true},
+    isBanned: Boolean,
 
     position: {x: Number, y: Number, z: Number},
     angle: Number, // rotation
@@ -17,7 +18,7 @@ var schema = new Schema({
     inventoryStr: String,
     learnedEffects: String,
     equipment: String,
-}, { timestamps: true });
+}, { timestamps: true, strict: false });
 
 var Character = mongoose.model('Character', schema);
 

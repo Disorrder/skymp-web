@@ -11,6 +11,9 @@ var router = new Router();
 
     route = require('./character');
     router.use('/character', route.routes(), route.allowedMethods());
+
+    route = require('./server');
+    router.use('/server', route.routes(), route.allowedMethods());
 }
 
 router.get('/', (ctx, next) => {

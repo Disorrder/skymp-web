@@ -1,4 +1,4 @@
 module.exports = {
     "secretKey": "WhiskeySexAndRocknroll",
-    "db": "mongodb://admin:adminpwd@ds231529.mlab.com:31529/disordered",
+    "db": "mongodb://admin:adminpwd@ds135186.mlab.com:35186/skymp-test",
 };
