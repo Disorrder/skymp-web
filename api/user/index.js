@@ -34,11 +34,8 @@ router.get('/', async (ctx) => {
 
 router.get('/:id', async (ctx) => {
     var user = await User.findById(ctx.params.id);
-    if (user) {
-        ctx.body = user;
-    } else {
-        ctx.throw(404);
-    }
+    if (!user) ctx.throw(404);
+    ctx.body = user;
 });
 
 router.put('/:id', async (ctx) => {

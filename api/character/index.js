@@ -1,4 +1,4 @@
-// const User = require('../user/model');
+var mongoose = require('mongoose');
 const Character = require('./model');
 const Router = require('koa-router');
 var router = new Router();
@@ -34,15 +34,24 @@ router.get('/', async (ctx) => {
     });
     list = await Promise.all(list);
     console.log(list, ctx.state.user.characters);
-    ctx.body = 'q';
+    ctx.body = list;
     console.log(ctx);
 });
 
-router.get('/:id', async (ctx) => {
+router.get('/:id', async (ctx, next) => {
     // TODO check ownerId
-    var item = await Character.findById(ctx.params.id);
-    if (!item) return ctx.throw(404);
+    // var item = await Promise.resolve(123);
+    var item = await Character.findById(ctx.params.id).exec();
+    // if (!item) return ctx.throw(404);
     ctx.body = item;
+    await next();
+    console.log('hmm', ctx.response, Character.findById(ctx.params.id).exec());
+});
+router.use((ctx, next) => {
+    console.log('WUT', ctx.response);
+    ctx.status = 200
+    if (!ctx.isAuthenticated()) return ctx.throw(401);
+    next();
 });
 
 router.put('/:id', async (ctx) => {
