@@ -8,29 +8,41 @@ cache:
         - src/config.js
 
 
-stages:
-    - build
-    - deploy
+# stages:
+#     - build
+#     - deploy
 
-build:
-    stage: build
-    script:
-        - npm i
-        - npm run build
+# build:
+#     stage: build
+#     environment:
+#         name: staging
+#         url: http://disordered.ru
+#     only:
+#         - dev
+#     script:
+#         - npm i
+#         - npm run build
     # Add artifacts later, because now it's about 35MB.
     # artifacts:
     #     paths:
     #         - .build/
 
-deploy:
+staging_build_deploy:
     stage: deploy
+    environment:
+        name: staging
+        url: http://disordered.ru
+    only:
+        - dev
     script:
-        - echo "Deploy to prod server"
-        # - npm run build
-        - echo "$(ls -a)"
+        - echo "Building"
+        - npm i
+        - npm run build
+        - echo "Deploying"
         - mkdir -p /var/www/website
         - cp -a .build/. /var/www/website
         - npm run api-pm2
-
-    only:
-        - dev
+    # Add artifacts later, because now it's about 35MB.
+    # artifacts:
+    #     paths:
+    #         - .build/

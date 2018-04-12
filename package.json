@@ -44,9 +44,9 @@
     "api": "nodemon api",
     "dev": "webpack-dev-server --progress",
     "build": "webpack --mode production",
-    "api-pm2": "pm2 start ecosystem.config.js"
+    "api-pm2": "pm2 restart ecosystem.config.js"
   },
   "engine": {
-    "node": ">=6.6.0"
+    "node": ">=9.0.0"
   }
 }
