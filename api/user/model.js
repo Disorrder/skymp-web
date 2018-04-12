@@ -6,7 +6,13 @@ var schema = new Schema({
     email: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
     username: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
     password: { type: String, required: true, select: false },
+    // Security
     enterTries: [],
+    access: {
+        isAdmin: { type: Boolean, default: false },
+    },
+    emailToken: String,
+    // Data
     characters: [{type: Schema.Types.ObjectId, ref: 'Character'}],
     charactersMax: { type: Number, default: 1 },
 }, { timestamps: true });

@@ -33,24 +33,27 @@ router.get('/', async (ctx) => {
 });
 
 router.get('/:id', async (ctx) => {
-    var user = await User.findById(ctx.params.id);
-    if (!user) ctx.throw(404);
-    ctx.body = user;
+    if (!ctx.isAuthenticated()) return ctx.throw(401);
+
+    var item = await User.findById(ctx.params.id);
+    if (!item) ctx.throw(404);
+    ctx.body = item;
 });
 
 router.put('/:id', async (ctx) => {
     if (!ctx.isAuthenticated()) return ctx.throw(401);
-    // TODO: check role
+    if (!ctx.state.user.access.isAdmin) return ctx.throw(403);
 
-    var data = ctx.request.body
-    var user = await User.findById(ctx.params.id);
-    if (!user) return ctx.throw(404);
+    var data = ctx.request.body;
+    try {
+        var item = await User.findByIdAndUpdate(ctx.params.id, data, {new: true});
+    } catch(e) {
+        console.log(e, e.message);
+        ctx.throw(500, e.message);
+    }
+    if (!item) return ctx.throw(404);
 
-    if (data.access_token) user.access_token = data.access_token;
-    if (data.message_token) user.message_token = data.message_token;
-
-    user.save();
-    ctx.body = user;
+    ctx.body = item;
 });
 
 module.exports = router;

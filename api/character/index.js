@@ -5,7 +5,7 @@ var router = new Router();
 
 router.use((ctx, next) => {
     if (!ctx.isAuthenticated()) return ctx.throw(401);
-    next();
+    return next();
 });
 
 router.post('/add', async (ctx) => {
@@ -15,7 +15,6 @@ router.post('/add', async (ctx) => {
     var data = ctx.request.body;
     data.owner = ctx.state.user._id
     var item = new Character(data);
-    console.log(item);
     try {
         await item.save();
         ctx.state.user.characters.push(item._id);
@@ -33,36 +32,36 @@ router.get('/', async (ctx) => {
         return await Character.findById(id);
     });
     list = await Promise.all(list);
-    console.log(list, ctx.state.user.characters);
     ctx.body = list;
-    console.log(ctx);
 });
 
 router.get('/:id', async (ctx, next) => {
-    // TODO check ownerId
-    // var item = await Promise.resolve(123);
-    var item = await Character.findById(ctx.params.id).exec();
-    // if (!item) return ctx.throw(404);
+    var isOwner = ctx.state.user.characters.some((id) => {
+        return id.equals(ctx.params.id);
+    });
+    if (!isOwner) return ctx.throw(403);
+
+    var item = await Character.findById(ctx.params.id);
+    if (!item) return ctx.throw(404);
     ctx.body = item;
-    await next();
-    console.log('hmm', ctx.response, Character.findById(ctx.params.id).exec());
-});
-router.use((ctx, next) => {
-    console.log('WUT', ctx.response);
-    ctx.status = 200
-    if (!ctx.isAuthenticated()) return ctx.throw(401);
-    next();
 });
 
 router.put('/:id', async (ctx) => {
-    // TODO check ownerId
-    var data = ctx.request.body
-    var character = await Character.findById(id);
-    if (!character) return ctx.throw(404);
+    var isOwner = ctx.state.user.characters.some((id) => {
+        return id.equals(ctx.params.id);
+    });
+    if (!isOwner) return ctx.throw(403);
 
-    Object.assign(character, data);
-    character.save();
-    ctx.body = character;
+    var data = ctx.request.body;
+    try {
+        var item = await Character.findByIdAndUpdate({_id: ctx.params.id}, data, {new: true});
+    } catch(e) {
+        console.log(e, e.message);
+        ctx.throw(500, e.message);
+    }
+    if (!item) return ctx.throw(404);
+
+    ctx.body = item;
 });
 
 module.exports = router;
