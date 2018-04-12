@@ -1,0 +1,30 @@
+image: node:latest
+
+cache:
+    paths:
+        - node_modules/
+
+
+stages:
+    - build
+    - deploy
+
+build:
+    stage: build
+    script:
+        - npm i
+        - npm run build
+
+deploy:
+    stage: deploy
+    script:
+        - echo "Deploy to prod server"
+        - mkdir -p /var/www/website
+        - cp ./.build/* /var/www/website
+        - pm2 start ecosystem.config.js
+
+    # environment:
+    #     name: production
+    #     url: http://disordered.ru
+    only:
+        - dev

@@ -12,7 +12,7 @@ You need to run two process simultaneously:
 ## Staging
 clone repo into /var/www/app_name and run
 `git pull && npm run vds` each time after push (build + api)
-And replace website.conf if it has changed.
+And replace website.conf if it has changed. Then run `nginx -s reload`
 TODO some CI platform for auto deploy (gitlab-runner)
 
 
