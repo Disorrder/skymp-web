@@ -3,6 +3,9 @@ image: node:latest
 cache:
     paths:
         - node_modules/
+        - .build/
+        - api/config.js
+        - src/config.js
 
 
 stages:
@@ -14,14 +17,20 @@ build:
     script:
         - npm i
         - npm run build
+    # Add artifacts later, because now it's about 35MB.
+    # artifacts:
+    #     paths:
+    #         - .build/
 
 deploy:
     stage: deploy
     script:
         - echo "Deploy to prod server"
+        # - npm run build
+        - echo "$(ls -a)"
         - mkdir -p /var/www/website
-        - cp -a ./.build/. /var/www/website
-        - pm2 start ecosystem.config.js
+        - cp -a .build/. /var/www/website
+        - npm run api-pm2
 
     only:
         - dev
