@@ -20,7 +20,7 @@ deploy:
     script:
         - echo "Deploy to prod server"
         - mkdir -p /var/www/website
-        - cp ./.build/* /var/www/website
+        - cp -a ./.build/. /var/www/website
         - pm2 start ecosystem.config.js
 
     only:
