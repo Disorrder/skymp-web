@@ -26,9 +26,7 @@ export default {
             this.messages = [];
 
             this.validate();
-            if (this.status === 'error') {
-                return;
-            }
+            if (this.status === 'error') return;
 
             this.formDisabled = true;
 

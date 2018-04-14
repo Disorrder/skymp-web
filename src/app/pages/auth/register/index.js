@@ -28,9 +28,7 @@ export default {
             this.messages = [];
 
             this.validate();
-            if (this.status === 'error') {
-                return;
-            }
+            if (this.status === 'error') return;
 
             this.formDisabled = true;
 
@@ -38,6 +36,7 @@ export default {
                 .then((user) => {
                     this.$root.saveCurrentUser(user);
                     localStorage.lastLogin = user.username;
+                    this.$router.push({name: 'profile'});
                 })
                 .catch((res) => {
                     this.status = 'error';
