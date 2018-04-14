@@ -7,7 +7,10 @@ var router = new VueRouter({
     routes: [
         {name: 'main', path: '/', component: require('app/pages/main').default},
         {name: 'about', path: '/about', component: require('app/pages/about').default},
-        {name: 'login', path: '/login', component: require('app/pages/login').default},
+
+        {name: 'login', path: '/login', component: require('app/pages/auth/login').default},
+        {name: 'register', path: '/register', component: require('app/pages/auth/register').default},
+
         {name: 'profile', path: '/profile', meta: {needAuth: true}, component: require('app/pages/profile').default},
     ]
 });

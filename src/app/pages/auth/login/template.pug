@@ -1,0 +1,28 @@
+div#login.content
+    header Hello
+
+    main.container.mt-4
+        .row.justify-content-center: .card.col-6: .card-body
+            form#auth.my-0(@submit="login")
+                h3.mb-4.text-center Вход
+                .form-group
+                    input.form-control(name="username" placeholder="Логин / почта"
+                        v-model="userData.username" required
+                        :class="{'is-invalid': status && !valid.username}"
+                        @focus="flushError"
+                    )
+                    small.invalid-feedback(v-if="messages.includes('ERR_INCORRECT_USERNAME')") Такого пользователя не существует
+                    
+                .form-group
+                    input.form-control(name="password" type="password" placeholder="Пароль"
+                        v-model="userData.password" required
+                        :class="{'is-invalid': status && !valid.password}"
+                        @focus="flushError"
+                    )
+                    small.invalid-feedback(v-if="messages.includes('ERR_INCORRECT_PASSWORD')") Неправильный пароль
+                
+                button.btn.btn-primary(type="submit" style="width: 100%;" :disabled="formDisabled") Войти
+                
+                .form-group.text-center.my-0
+                    a.form-text.text-muted(href="javascript:void(0)") Забыл пароль
+                    router-link.form-text.text-muted(:to="{name: 'register'}") Регистрация

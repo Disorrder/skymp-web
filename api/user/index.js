@@ -6,8 +6,8 @@ var router = new Router();
 router.post('/add', async (ctx) => {
     var data = ctx.request.body;
 
-    if (data.password !== data.password_repeat) {
-        ctx.throw(400, 'ERR_PASSWORDS_MISMATCH');
+    if (data.password !== data.password2) {
+        return ctx.throw(400, 'ERR_PASSWORDS_MISMATCH');
     }
 
     var user = new User(data);
@@ -16,10 +16,12 @@ router.post('/add', async (ctx) => {
         await ctx.login(user);
     } catch(e) {
         if (e.code === 11000) {
-            ctx.throw(400, 'ERR_USER_IS_ALREADY_EXISTS');
+            user = await User.findOne({username: data.username});
+            if (user) return ctx.throw(400, 'ERR_USERNAME_BUSY');
+            return ctx.throw(400, 'ERR_EMAIL_BUSY');
         } else {
             console.log('500', '/user/add', e);
-            ctx.throw(500, e.message);
+            return ctx.throw(500, e.message);
         }
         return;
     }
