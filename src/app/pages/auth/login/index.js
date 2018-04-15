@@ -37,6 +37,7 @@ export default {
                         this.$router.push(this.$route.query.redirect);
                     }
                     localStorage.lastLogin = user.username;
+                    this.$notify({type: 'success', title: 'Добро пожаловать!'});
                 })
                 .catch((res) => {
                     this.status = 'error';
@@ -48,6 +49,10 @@ export default {
                     this.formDisabled = false;
                 })
             ;
+        },
+
+        forgotPassword() {
+            this.$notify({type: 'warn', title: 'Пока не работает'});
         },
 
         validate() {

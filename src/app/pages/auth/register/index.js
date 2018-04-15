@@ -37,6 +37,7 @@ export default {
                     this.$root.saveCurrentUser(user);
                     localStorage.lastLogin = user.username;
                     this.$router.push({name: 'profile'});
+                    this.$notify({type: 'success', title: 'Добро пожаловать!', text: 'Не забудь подтвердить почту ;)'});
                 })
                 .catch((res) => {
                     this.status = 'error';

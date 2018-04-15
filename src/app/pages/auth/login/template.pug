@@ -24,5 +24,5 @@ div#login.content
                 button.btn.btn-primary(type="submit" style="width: 100%;" :disabled="formDisabled") Войти
                 
                 .form-group.text-center.my-0
-                    a.form-text.text-muted(href="javascript:void(0)") Забыл пароль
+                    a.form-text.text-muted(href="javascript:void(0)" @click="forgotPassword") Забыл пароль
                     router-link.form-text.text-muted(:to="{name: 'register'}") Регистрация

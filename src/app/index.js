@@ -9,6 +9,9 @@ import Vue from 'vue';
 import router from './router';
 // import store from './store';
 
+import Notifications from 'vue-notification'
+Vue.use(Notifications);
+
 $.ajaxSetup({
     crossDomain: true,
     xhrFields: {
