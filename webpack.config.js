@@ -48,7 +48,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, cfg.path.build),
-        // publicPath: cfg.path.build,
+        publicPath: '/',
         filename: '[name].js',
         library: '[name]'
     },

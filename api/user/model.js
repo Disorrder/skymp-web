@@ -7,14 +7,26 @@ var schema = new Schema({
     username: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
     password: { type: String, required: true, select: false },
     // Security
+    resetToken: String,
     enterTries: [],
     access: {
         isAdmin: { type: Boolean, default: false },
     },
     emailToken: String,
     // Data
+    personal: {
+        name: String,
+        birthdate: Date,
+    },
     characters: [{type: Schema.Types.ObjectId, ref: 'Character'}],
     charactersMax: { type: Number, default: 1 },
+    // Social networks
+    vk: Schema.Types.Mixed,
+    fb: Schema.Types.Mixed,
+    // Preferences
+    preferences: {
+        // emailTypes: Schema.types.Mixed
+    }
 }, { timestamps: true });
 
 schema.methods.verifyPassword = function(password) {

@@ -4,6 +4,7 @@ var router = new Router();
 
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
+const sendEmail = require('../email/send');
 
 passport.use(new LocalStrategy(function(username, password, done) {
     var field = ~username.indexOf('@') ? 'email' : 'username';
@@ -29,11 +30,19 @@ router.post('/login', async (ctx) => {
     ctx.body = user;
 });
 
-// some problem with error codes. If passport strategy fails, next middleware will not run
-// router.post('/__login', passport.authenticate('local'), async (ctx) => {
-//     var data = ctx.request.body;
-//     console.log('LOG', data, ctx, ctx.isAuthenticated(), ctx.state);
-//     ctx.body = ctx.state.user;
-// });
+router.post('/reset', async (ctx) => {
+    var data = ctx.request.body;
+    var field = ~data.username.indexOf('@') ? 'email' : 'username';
+
+    var user = await User.findOne({[field]: data.username});
+    if (!user) return ctx.throw(403, 'ERR_INCORRECT_USERNAME');
+
+    // if (user.resetToken) return ctx.throw(400, 'ERR_MAIL_ALREADY_SENT');
+    user.resetToken = String.randomize(15);
+    console.log(user.resetToken);
+    await user.save();
+    await sendEmail.register({to: user.email, resetToken: user.resetToken})
+    ctx.body = 'Email sent.';
+});
 
 module.exports = router;

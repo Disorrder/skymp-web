@@ -9,7 +9,7 @@ div#register.content
                     //- input.form-control(name="username" placeholder="Логин" required v-model="userData.username")
                     input.form-control(name="username" placeholder="Логин"
                         v-model="userData.username" required
-                        :class="{'is-invalid': status && !valid.username}"
+                        :class="{'is-invalid': status && valid.username===false}"
                         @focus="flushError" @blur="checkUsername"
                     )
                     small.invalid-feedback(v-if="messages.includes('ERR_USERNAME_BUSY')") Такой ник уже занят
@@ -17,14 +17,14 @@ div#register.content
                     //- input.form-control(name="email" type="email" placeholder="Почта" required v-model="userData.email")
                     input.form-control(name="email" type="email" placeholder="Почта"
                         v-model="userData.email" required
-                        :class="{'is-invalid': status && !valid.email}"
+                        :class="{'is-invalid': status && valid.email===false}"
                         @focus="flushError" @blur="checkEmail"
                     )
                     small.invalid-feedback(v-if="messages.includes('ERR_EMAIL_BUSY')") Почта уже в системе
                 .form-group
                     input.form-control(name="password" type="password" placeholder="Пароль"
                         v-model="userData.password" required
-                        :class="{'is-invalid': status && !valid.password}"
+                        :class="{'is-invalid': status && valid.password===false}"
                         @focus="flushError"
                     )
                     small.invalid-feedback(v-if="messages.includes('ERR_PASSWORD_TOO_SHORT')") Да-да, здесь тоже не меньше 6 символов!
@@ -32,7 +32,7 @@ div#register.content
                 .form-group
                     input.form-control(name="password2" type="password" placeholder="Пароль"
                         v-model="userData.password2" required
-                        :class="{'is-invalid': status && !valid.password2}"
+                        :class="{'is-invalid': status && valid.password2===false}"
                         @focus="flushError"
                     )
                     small.invalid-feedback(v-if="messages.includes('ERR_PASSWORDS_MISMATCH')") Пароли не совпадают

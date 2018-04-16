@@ -8,7 +8,7 @@ div#login.content
                 .form-group
                     input.form-control(name="username" placeholder="Логин / почта"
                         v-model="userData.username" required
-                        :class="{'is-invalid': status && !valid.username}"
+                        :class="{'is-invalid': status && valid.username===false}"
                         @focus="flushError"
                     )
                     small.invalid-feedback(v-if="messages.includes('ERR_INCORRECT_USERNAME')") Такого пользователя не существует
@@ -16,7 +16,7 @@ div#login.content
                 .form-group
                     input.form-control(name="password" type="password" placeholder="Пароль"
                         v-model="userData.password" required
-                        :class="{'is-invalid': status && !valid.password}"
+                        :class="{'is-invalid': status && valid.password===false}"
                         @focus="flushError"
                     )
                     small.invalid-feedback(v-if="messages.includes('ERR_INCORRECT_PASSWORD')") Неправильный пароль

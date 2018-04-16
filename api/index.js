@@ -1,5 +1,6 @@
 const buildCfg = require('../buildconfig.json');
 const cfg = require('./config');
+require('./utils');
 
 var mongoose = require('mongoose');
 mongoose.Promise = Promise;

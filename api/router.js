@@ -14,6 +14,9 @@ var router = new Router();
 
     route = require('./server');
     router.use('/server', route.routes(), route.allowedMethods());
+
+    route = require('./email');
+    router.use('/email', route.routes(), route.allowedMethods());
 }
 
 router.get('/', (ctx, next) => {

@@ -52,7 +52,38 @@ export default {
         },
 
         forgotPassword() {
-            this.$notify({type: 'warn', title: 'Пока не работает'});
+            this.flushError();
+            if (!this.userData.username) {
+                this.status = 'error';
+                this.valid.username = false;
+                this.messages.push('ERR_INCORRECT_USERNAME');
+                return;
+            }
+
+            $.post(config.api+'/auth/reset', this.userData)
+                .then(() => {
+                    this.$notify({type: 'success', text: 'Письмо с инструкциями отправлено'});
+                })
+                .catch((res) => {
+                    if (res.responseText === 'ERR_MAIL_ALREADY_SENT') {
+                        this.$notify({type: 'error', text: 'Письмо уже было отправлено. Не забудь проверить в спаме.'});
+                        return;
+                    }
+
+                    if (res.responseText === 'ERR_INCORRECT_USERNAME') {
+                        console.log(this.valid);
+                        this.valid.username = false;
+                        this.messages.push(res.responseText);
+                    }
+                    if (!this.isFormValid()) {
+                        this.status = 'error';
+                        return;
+                    }
+
+                    this.$notify({type: 'error', text: 'Что-то пошло не так'});
+                })
+
+            ;
         },
 
         validate() {
@@ -73,7 +104,8 @@ export default {
         flushError() {
             this.status = null;
             this.messages = [];
-        }
+            for (let k in this.valid) this.valid[k] = true;
+        },
     },
     created() {
 
