@@ -34,12 +34,17 @@ router.post('/reset', async (ctx) => {
     var data = ctx.request.body;
     var field = ~data.username.indexOf('@') ? 'email' : 'username';
 
-    var user = await User.findOne({[field]: data.username});
+    var user = await User.findOne({[field]: data.username}).select('+resetToken');
     if (!user) return ctx.throw(403, 'ERR_INCORRECT_USERNAME');
 
-    // if (user.resetToken) return ctx.throw(400, 'ERR_MAIL_ALREADY_SENT');
-    user.resetToken = String.randomize(15);
-    console.log(user.resetToken);
+    if (user.resetToken) {
+        let expires = parseInt(user.resetToken.substr(0, 8), 36);
+        console.log(user.resetToken.substr(0, 8), expires, new Date(expires));
+        if (expires > Date.now()) return ctx.throw(400, 'ERR_MAIL_ALREADY_SENT');
+    }
+
+    let expires = Date.now() + 1000*60*60; // Expires in 1 hour
+    user.resetToken = expires.toString(36) + String.randomize(8);
     await user.save();
     await sendEmail.register({to: user.email, resetToken: user.resetToken})
     ctx.body = 'Email sent.';

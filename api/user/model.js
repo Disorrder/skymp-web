@@ -7,7 +7,7 @@ var schema = new Schema({
     username: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
     password: { type: String, required: true, select: false },
     // Security
-    resetToken: String,
+    resetToken: { type: String, select: false },
     enterTries: [],
     access: {
         isAdmin: { type: Boolean, default: false },
