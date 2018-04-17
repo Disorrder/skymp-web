@@ -8,6 +8,7 @@ var from = `Гонец SkyMP <courier@${cfg.mailgun.domain}>`;
 function register(data) {
     var file = path.resolve(__dirname, `./templates/reset-password.pug`);
     var locals = {
+        origin: data.origin,
         resetToken: data.resetToken,
     };
 

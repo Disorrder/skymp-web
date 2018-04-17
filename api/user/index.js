@@ -16,6 +16,7 @@ router.post('/add', async (ctx) => {
         await ctx.login(user);
     } catch(e) {
         if (e.code === 11000) {
+            // TODO: recognize from text
             user = await User.findOne({username: data.username});
             if (user) return ctx.throw(400, 'ERR_USERNAME_BUSY');
             return ctx.throw(400, 'ERR_EMAIL_BUSY');

@@ -25,7 +25,7 @@ router.post('/login', async (ctx) => {
     if (!user) return ctx.throw(403, 'ERR_INCORRECT_USERNAME');
     if (!user.verifyPassword(data.password)) return ctx.throw(401, 'ERR_INCORRECT_PASSWORD');
 
-    // TODO: remove password
+    // TODO: remove hash
     ctx.login(user);
     ctx.body = user;
 });
@@ -39,15 +39,40 @@ router.post('/reset', async (ctx) => {
 
     if (user.resetToken) {
         let expires = parseInt(user.resetToken.substr(0, 8), 36);
-        console.log(user.resetToken.substr(0, 8), expires, new Date(expires));
         if (expires > Date.now()) return ctx.throw(400, 'ERR_MAIL_ALREADY_SENT');
     }
 
     let expires = Date.now() + 1000*60*60; // Expires in 1 hour
     user.resetToken = expires.toString(36) + String.randomize(8);
     await user.save();
-    await sendEmail.register({to: user.email, resetToken: user.resetToken})
-    ctx.body = 'Email sent.';
+    await sendEmail.register({to: user.email, resetToken: user.resetToken, origin: ctx.get('origin')})
+    ctx.body = 'Email has been sent.';
+});
+
+router.get('/reset/:token', async (ctx) => {
+    var token = ctx.params.token;
+    var user = await User.findOne({resetToken: token});
+    if (!user) return ctx.throw(400, 'ERR_INVALID_TOKEN');
+    ctx.body = 'Yes, you just requested to change password.';
+});
+
+router.post('/reset/:token', async (ctx) => {
+    var token = ctx.params.token;
+    var data = ctx.request.body;
+
+    // if (!data.password) return ctx.throw(400, 'ERR_INCORRECT_PASSWORD');
+    // if (data.password !== data.password2) {
+    //     return ctx.throw(400, 'ERR_PASSWORDS_MISMATCH');
+    // }
+
+    // password changes requires two Queries because of 'pre save'
+    var user = await User.findOne({resetToken: token});
+    if (!user) return ctx.throw(400, 'ERR_INVALID_TOKEN');
+    user.resetToken = null;
+    user.password = data.password;
+    user.save();
+
+    ctx.body = 'Successfully updated.';
 });
 
 module.exports = router;

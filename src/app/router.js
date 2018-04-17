@@ -10,6 +10,7 @@ var router = new VueRouter({
 
         {name: 'login', path: '/login', component: require('app/pages/auth/login').default},
         {name: 'register', path: '/register', component: require('app/pages/auth/register').default},
+        {name: 'reset', path: '/reset', component: require('app/pages/auth/reset').default},
 
         {name: 'profile', path: '/profile', meta: {needAuth: true}, component: require('app/pages/profile').default},
     ]

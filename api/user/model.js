@@ -6,9 +6,10 @@ var schema = new Schema({
     email: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
     username: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
     password: { type: String, required: true, select: false },
+    // hash: { type: String, required: true, select: false },
     // Security
     resetToken: { type: String, select: false },
-    enterTries: [],
+    accessLog: [],
     access: {
         isAdmin: { type: Boolean, default: false },
     },
