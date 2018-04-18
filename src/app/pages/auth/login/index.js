@@ -33,10 +33,10 @@ export default {
             $.post(config.api+'/auth/login', this.userData)
                 .then((user) => {
                     this.$root.saveCurrentUser(user);
+                    localStorage.lastLogin = user.username;
                     if (this.$route.query.redirect) {
                         this.$router.push(this.$route.query.redirect);
                     }
-                    localStorage.lastLogin = user.username;
                     this.$notify({type: 'success', title: 'Добро пожаловать!'});
                 })
                 .catch((res) => {

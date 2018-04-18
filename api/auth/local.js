@@ -71,8 +71,9 @@ router.post('/reset/:token', async (ctx) => {
     user.resetToken = null;
     user.password = data.password;
     user.save();
+    ctx.login(user);
 
-    ctx.body = 'Successfully updated.';
+    ctx.body = user;
 });
 
 module.exports = router;
