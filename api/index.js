@@ -43,7 +43,11 @@ app
     .use(router.allowedMethods())
 ;
 
-app.listen(buildCfg.api.port);
+app.listen(buildCfg.api.port, function () {
+    const { address, port } = this.address();
+    const protocol = this.addContext ? 'https' : 'http';
+    console.log(`Listening on ${protocol}://${address}:${port}...`);
+});
 
 console.log('\nAPI server is running on', buildCfg.api.port, 'port.');
 

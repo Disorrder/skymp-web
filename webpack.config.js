@@ -22,10 +22,13 @@ function chunksSortOrder(chunks) {
 }
 
 // env variables
+const process = require('process');
+var argv = require('minimist')(process.argv.slice(2));
+if (!argv.mode) argv.mode = 'development';
+
 process.env.WEBPACK = true;
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-function isDev() { return process.env.NODE_ENV == 'development' }
-function isProd() { return process.env.NODE_ENV == 'production' }
+function isDev() { return argv.mode == 'development' }
+function isProd() { return argv.mode == 'production' }
 function isMac() { return os.platform() == 'darwin' }
 function isWin() { return os.platform() == 'win32' }
 
@@ -36,10 +39,10 @@ var flags = {
     notify: isDev(),
 }
 
-console.log('Builder is running in', process.env.NODE_ENV, 'mode.');
+console.log('Builder is running in', argv.mode, 'mode.');
 
 module.exports = {
-    mode: process.env.NODE_ENV,
+    mode: argv.mode,
     context: path.resolve(cfg.path.app),
     watch: flags.watch,
     entry: {
@@ -116,7 +119,7 @@ module.exports = {
         ]),
 
         // new webpack.DefinePlugin({
-        //     'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        //     'NODE_ENV': JSON.stringify(argv.mode)
         // }),
 
         new webpack.ProvidePlugin({

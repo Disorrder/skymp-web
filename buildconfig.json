@@ -1,6 +1,6 @@
 {
     "path": {
-        "bower": "./",
+        "api": "./api/",
         "app": "./src/",
         "build": "./.build/"
     },
@@ -12,7 +12,6 @@
         "fallback": true
     },
     "api": {
-        "active": false,
         "https": false,
         "hostname": "localhost",
         "host": "0.0.0.0",

@@ -3,10 +3,6 @@ image: node:latest
 cache:
     paths:
         - node_modules/
-        - .build/
-        - api/config.js
-        - src/config.js
-
 
 # stages:
 #     - build
@@ -35,10 +31,13 @@ staging_build_deploy:
     only:
         - dev
     script:
-        - echo "Building"
+        # - echo "Building"
+        - cp -f /var/www/configs/web.config.js src/config.js
+        - cp -f /var/www/configs/api.config.js api/config.js
+        # - cp -f /var/www/configs/build.config.json buildconfig.json
         - npm i
         - npm run build
-        - echo "Deploying"
+        # - echo "Deploying"
         - mkdir -p /var/www/website
         - cp -rf .build/. /var/www/website
         - npm run api-pm2
