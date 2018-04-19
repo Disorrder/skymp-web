@@ -1,5 +1,6 @@
 const User = require('./model');
 const Router = require('koa-router');
+const email = require('../email/send');
 var router = new Router();
 
 // Registration
@@ -13,6 +14,7 @@ router.post('/add', async (ctx) => {
     var user = new User(data);
     try {
         await user.save();
+        await email.sendConfirmToken({to: user.email, confirmToken: user.confirmToken, origin: ctx.get('origin')});
         await ctx.login(user);
     } catch(e) {
         if (e.code === 11000) {
@@ -58,5 +60,6 @@ router.put('/:id', async (ctx) => {
 
     ctx.body = item;
 });
+
 
 module.exports = router;
