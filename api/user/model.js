@@ -21,6 +21,8 @@ var schema = new Schema({
     },
     characters: [{type: Schema.Types.ObjectId, ref: 'Character'}],
     charactersMax: { type: Number, default: 1 },
+    skyPoints: { type: Number, default: 0 },
+    gifts: [],
     // Social networks
     vk: Schema.Types.Mixed,
     fb: Schema.Types.Mixed,
