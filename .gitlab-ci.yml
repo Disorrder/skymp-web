@@ -39,9 +39,6 @@ staging_build_deploy:
         - npm run build
         # - echo "Deploying"
         - mkdir -p /var/www/website
+        - rm -rf /var/www/website
         - cp -rf .build/. /var/www/website
         - npm run api-pm2
-    # Add artifacts later, because now it's about 35MB.
-    # artifacts:
-    #     paths:
-    #         - .build/
