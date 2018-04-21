@@ -1,10 +1,30 @@
 div#profile.content
-    header Hello
-
-    main.container.mt-4
-        .row.justify-content-center: .card.col-6: .card-body
-            h3.text-center Профиль
-            form.mt-4.mb-0
-                .form-group.mb-0
-                    .form-text.text-center Имя {{$root.user.username}}
+    main.container
+        .row: .col
+            h2.bg-clip-text.mb-4.float-right Добро пожаловать, {{$root.user.username}}!
+            
+        .row
+            .col-12.col-lg-8.offset-xl-1.col-xl-7
+                .panel.border-grad-down
+                    h3.border-grad-right: span.bg-clip-text Информация о персонаже
+                    .panel-section.character-empty(v-if="!$root.user.characters.length"): .row.text-center
+                        .btn.add.animated.offset-1.col-10.d-flex.flex-row.align-items-center
+                            .btn-icon: i.fa.fa-plus
+                            .btn-text Создать персонажа
+                        
+                    .panel-section(v-if="$root.user.characters.length"): .row.text-center
+                        .offset-1.col-2 x x x x x x x x x x x x x x x x x x x x x x x
+                        .col-6 xxx xxx xxx xxx xxx
+                        .col-2 x x x x x x x x x x x x x x x x x x x x x x x x x x x x
+                        
+                    h3.border-grad-right: span.bg-clip-text Безопасность аккаунта
+                    //- h3.border-grad-right: span.bg-clip-text Обратиться в поддержку
+            
+            .col-12.col-lg-4.offset-xl-1.col-xl-3.order-first.order-lg-last
+                .panel.border-grad-down(v-if="$root.user.characters[0]")
+                    div фото
+                    div {{$root.user.characters[0].money}} септимов
+                    div {{$root.user.skyPoints}} SkyPoints
+                    div Репутация: {{$root.user.characters[0].reputation}}
+            
             

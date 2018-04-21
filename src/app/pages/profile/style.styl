@@ -3,5 +3,59 @@ $root = "../../../"
 #profile
     color black
 
-    // header
-    //     height 10%
+    h2
+        background-image linear-gradient(to top, rgb(229, 195, 90) 0%, #fff 100%)
+        filter drop-shadow(3px 4px 3px #000)
+        color #fff
+        font-family Aniron
+        font-size 31px
+        font-weight bold
+        letter-spacing -1.25px
+
+    h3
+        margin-left -4px
+        margin-bottom 0
+        padding 0 1rem
+        border-image linear-gradient(to right, rgba(#fff, 1) 0%, rgba(#fff, 0) 100%) 1
+        background-image linear-gradient(to right, rgba(#fff, 0.5) 0%, rgba(#fff, 0) 80%)
+        color #000000
+        font-family "Trajan Pro 3"
+        font-size 32px
+        font-weight bold
+
+        & > .bg-clip-text
+            $glow = drop-shadow(0 0 11px #fff)
+            background-image linear-gradient(to top, #000000 0%, #447172 100%)
+            filter $glow $glow
+
+
+    .panel
+        padding-top 20px
+        background rgba(#fff, 0.6)
+        border-image linear-gradient(to bottom, rgba(#fff, 0.7) 0%, rgba(#fff, 0) 20%, rgba(#fff, 0) 80%, rgba(#fff, 0.4) 100%) 1
+        border-bottom-width 2px
+
+    .panel-section
+        padding 0.75rem 0
+
+    .character-empty
+        .add
+            // border 1px solid #ddd
+            opacity 0.7
+
+            &:hover
+                opacity 1
+
+            .btn-icon
+                font-size 3em
+                border 1px dashed #ddd
+
+                i.fa
+                    width 1.1em
+                    line-height 1.1em
+                    padding-top 0.05em // cenering hack :c
+
+            .btn-text
+                font-size 2em
+                // line-height 1.7em
+                flex 1 0
