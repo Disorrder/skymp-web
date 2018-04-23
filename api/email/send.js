@@ -20,6 +20,22 @@ function register(data) {
     });
 }
 
+function sendConfirmToken(data) {
+    var file = path.resolve(__dirname, `./templates/confirm-email.pug`);
+    var locals = {
+        origin: data.origin,
+        confirmToken: data.confirmToken,
+    };
+
+    return mailgun.messages().send({
+        from,
+        to: data.to,
+        subject: 'Подтверждение почты',
+        html: pug.compileFile(file)(locals),
+    });
+}
+
 module.exports = {
     register,
+    sendConfirmToken
 };

@@ -76,4 +76,16 @@ router.post('/reset/:token', async (ctx) => {
     ctx.body = user;
 });
 
+router.get('/confirm/:token', async (ctx) => {
+    const token = ctx.params.token;
+    let user;
+    try {
+        user = await User.findOneAndUpdate({confirmToken: token}, {confirmToken: null}, {new: true});
+    } catch (e){
+        if (!user) ctx.throw(400, 'ERR_INVALID_TOKEN');
+        else ctx.throw(500, e.message);
+    }
+    ctx.status = 200;
+});
+
 module.exports = router;

@@ -13,7 +13,7 @@ var schema = new Schema({
     access: {
         isAdmin: { type: Boolean, default: false },
     },
-    emailToken: String,
+    confirmToken: String,
     // Data
     personal: {
         name: String,
@@ -39,6 +39,7 @@ schema.methods.verifyPassword = function(password) {
 schema.pre('save', async function() {
     if (!this.isModified('password')) return;
     this.password = bcrypt.hashSync(this.password, 10); // 10 - salt work factor
+    this.confirmToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 });
 
 var User = mongoose.model('User', schema);
