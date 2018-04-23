@@ -21,10 +21,10 @@ div#profile.content
                     //- h3.border-grad-right: span.bg-clip-text Обратиться в поддержку
             
             .col-12.col-lg-4.offset-xl-1.col-xl-3.order-first.order-lg-last
-                .panel.border-grad-down(v-if="$root.user.characters[0]")
-                    div фото
-                    div {{$root.user.characters[0].money}} септимов
-                    div {{$root.user.skyPoints}} SkyPoints
-                    div Репутация: {{$root.user.characters[0].reputation}}
+                aside.character-info.border-grad-down(v-if="character")
+                    div.text-center photo: {{character.photo}}
+                    div.info-field.text-center.bg-grad-center.border-grad-center {{character.money}} септимов
+                    div.info-field.text-center.bg-grad-center.border-grad-center {{$root.user.skyPoints}} SkyPoints
+                    div.info-field.text-center.bg-grad-center.border-grad-center Репутация: {{character.reputation}}
             
             

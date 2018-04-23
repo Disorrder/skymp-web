@@ -4,7 +4,11 @@ export default {
     template: require('./template.pug')(),
     data() {
         return {
-
+            character: {
+                photo: '',
+                money: 0,
+                reputation: 0
+            }
         }
     },
     computed: {
@@ -14,6 +18,10 @@ export default {
 
     },
     created() {
+        var user = this.$root.user;
+        if (user.characters.length) {
+            this.character = user.characters[0];
+        }
 
     },
     mounted() {
