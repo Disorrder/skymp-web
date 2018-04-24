@@ -9,33 +9,31 @@ export default {
                 password: '',
             },
             valid: {},
-            formDisabled: false,
-            status: null, // one of null, ok, error
+            status: null, // one of null, pending, error, invalidToken
             messages: [],
-            invalidToken: null,
+            formDisabled: false,
         }
-    },
-    computed: {
-
     },
     methods: {
         reset(e) {
             e.preventDefault();
             this.validate();
 
+            this.formDisabled = true;
             let token = this.$route.query.token;
             this.userData.token = token;
             $.post(config.api+'/auth/reset/'+token, this.userData)
                 .then((user) => {
                     this.$root.saveCurrentUser(user);
                     localStorage.lastLogin = user.username;
-                    
+
                     this.$notify({type: 'success', title: 'Пароль успешно изменён'});
                     this.$router.push({name: 'profile'});
                     this.$notify({type: 'success', title: 'Добро пожаловать!'});
                 })
                 .catch((e) => {
                     console.log('Reset failed', e);
+                    this.formDisabled = false;
                 })
             ;
         },
@@ -50,20 +48,17 @@ export default {
         },
     },
     created() {
-        console.log('qwe', this);
+        this.status = null; // 'pending'
         var token = this.$route.query.token;
         $.get(config.api+'/auth/reset/'+token)
             .then(() => {
                 console.log('Token is correct.');
-                this.invalidToken = false;
+                this.status = null;
             })
             .catch((e) => {
                 console.log('Invalid token', e);
-                this.invalidToken = true;
+                this.status = 'invalidToken';
             })
         ;
-    },
-    mounted() {
-
     }
 };

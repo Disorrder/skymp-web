@@ -45,7 +45,7 @@ router.post('/reset', async (ctx) => {
     let expires = Date.now() + 1000*60*60; // Expires in 1 hour
     user.resetToken = expires.toString(36) + String.randomize(8);
     await user.save();
-    await sendEmail.register({to: user.email, resetToken: user.resetToken, origin: ctx.get('origin')})
+    await sendEmail.resetPassword({to: user.email, resetToken: user.resetToken, origin: ctx.get('origin')})
     ctx.body = 'Email has been sent.';
 });
 
@@ -78,14 +78,17 @@ router.post('/reset/:token', async (ctx) => {
 
 router.get('/confirm/:token', async (ctx) => {
     const token = ctx.params.token;
-    let user;
     try {
-        user = await User.findOneAndUpdate({confirmToken: token}, {confirmToken: null}, {new: true});
-    } catch (e){
-        if (!user) ctx.throw(400, 'ERR_INVALID_TOKEN');
-        else ctx.throw(500, e.message);
+        var user = await User.findOneAndUpdate({confirmToken: token}, {
+            confirmToken: null,
+            "access.isConfirmed": true
+        }, {new: true}).select('+confirmToken');
+        if (!user) return ctx.throw(400, 'ERR_INVALID_TOKEN');
+    } catch(e) {
+        console.log('Confirm error', e, user);
+        return ctx.throw(500, e.message);
     }
-    ctx.status = 200;
+    ctx.body = user;
 });
 
 module.exports = router;

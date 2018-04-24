@@ -5,7 +5,7 @@ var mailgun = require('mailgun-js')(cfg.mailgun);
 
 var from = `Гонец SkyMP <courier@${cfg.mailgun.domain}>`;
 
-function register(data) {
+function resetPassword(data) {
     var file = path.resolve(__dirname, `./templates/reset-password.pug`);
     var locals = {
         origin: data.origin,
@@ -20,7 +20,7 @@ function register(data) {
     });
 }
 
-function sendConfirmToken(data) {
+function confirmEmail(data) {
     var file = path.resolve(__dirname, `./templates/confirm-email.pug`);
     var locals = {
         origin: data.origin,
@@ -36,6 +36,6 @@ function sendConfirmToken(data) {
 }
 
 module.exports = {
-    register,
-    sendConfirmToken
+    resetPassword,
+    confirmEmail,
 };

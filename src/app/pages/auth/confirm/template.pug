@@ -1,2 +1,15 @@
-h1
-    p Подтверждено
+div#confirm.content
+    main.container.mt-4
+        .row.justify-content-center: .card.col-6: .card-body
+            div(v-if="status === 'pending'")
+                .form-group
+                    .form-text Одно мгновение...
+                
+                
+            div(v-if="status === 'invalidToken'")
+                h3.mb-4.text-center Ошибка
+                .form-group
+                    .form-text Ссылка не действительна.
+                
+                router-link.btn.btn-info(:to="{name: 'login'}" style="width: 100%;") Назад ко входу
+                
