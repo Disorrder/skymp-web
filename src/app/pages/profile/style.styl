@@ -1,4 +1,5 @@
 $root = "../../../"
+@require $root+"app/pages/mixins.styl"
 
 #profile
     color black
@@ -38,13 +39,33 @@ $root = "../../../"
     .panel-section
         padding 0.75rem 0
 
-    .character-empty
+    .panel-link
+        color #000000
+        font-family "Trajan Pro 3"
+        font-size 23px
+        font-weight bold
+        line-height 1.5em
+        transition all ease 0.3s
+        cursor pointer
+
+        &[disabled]
+            cursor initial
+            opacity 0.6
+
+        &:hover:not([disabled])
+            text-shadow 0 0 3px white, 0 0 2px white
+
+    .panel-character-empty
         .add
-            // border 1px solid #ddd
+            font-family "Trajan Pro 3"
+            font-weight bold
             opacity 0.7
 
             &:hover
                 opacity 1
+                text-shadow 0 0 3px white, 0 0 2px white
+
+                // .btn-text
 
             .btn-icon
                 font-size 3em
@@ -61,18 +82,16 @@ $root = "../../../"
                 flex 1 0
 
 
-    aside
-        .character-info
+    aside.character-info
             .info-field
-                // background-image linear-gradient(to right, rgba(white, 0) 0%, rgba(white, 0.4) 50%, rgba(white, 0) 100%)
-                // border 2px 0 solid
-
-                margin 10px 0
-                
+                // bgGradCenter()
+                // borderGradCenter()
+                $glow = 0 0 4px white
+                margin 20px 0
                 color #000000
                 font-family "Trajan Pro 3"
                 font-size 14px
                 font-weight bold
                 line-height 23.89px
                 letter-spacing 0.28px
-                text-shadow 1px 2px 2px black
+                text-shadow $glow, $glow

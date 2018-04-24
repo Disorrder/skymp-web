@@ -7,24 +7,58 @@ div#profile.content
             .col-12.col-lg-8.offset-xl-1.col-xl-7
                 .panel.border-grad-down
                     h3.border-grad-right: span.bg-clip-text Информация о персонаже
-                    .panel-section.character-empty(v-if="!$root.user.characters.length"): .row.text-center
-                        .btn.add.animated.offset-1.col-10.d-flex.flex-row.align-items-center
+                    .panel-section.panel-character-empty(v-if="!$root.user.characters.length"): .row.text-center
+                        .btn.add.animated.offset-1.col-10.d-flex.flex-row.align-items-center(@click="createCharacterModal")
                             .btn-icon: i.fa.fa-plus
                             .btn-text Создать персонажа
                         
-                    .panel-section(v-if="$root.user.characters.length"): .row.text-center
+                    .panel-section.panel-character(v-if="$root.user.characters.length"): .row.text-center
                         .offset-1.col-2 x x x x x x x x x x x x x x x x x x x x x x x
                         .col-6 xxx xxx xxx xxx xxx
                         .col-2 x x x x x x x x x x x x x x x x x x x x x x x x x x x x
                         
                     h3.border-grad-right: span.bg-clip-text Безопасность аккаунта
+                    .panel-section.panel-account
+                        .panel-link.text-center Изменить пароль
+                        .panel-link.text-center Привязать ВКонтакте
                     //- h3.border-grad-right: span.bg-clip-text Обратиться в поддержку
             
             .col-12.col-lg-4.offset-xl-1.col-xl-3.order-first.order-lg-last
-                aside.character-info.border-grad-down(v-if="character")
-                    div.text-center photo: {{character.photo}}
+                aside.character-info(v-if="character")
+                    div.text-center: img(:src="character.photo")
                     div.info-field.text-center.bg-grad-center.border-grad-center {{character.money}} септимов
                     div.info-field.text-center.bg-grad-center.border-grad-center {{$root.user.skyPoints}} SkyPoints
                     div.info-field.text-center.bg-grad-center.border-grad-center Репутация: {{character.reputation}}
             
             
+    // modals
+    .modal.fade#createCharacter(tabindex="-1")
+        .modal-dialog.dialog-centered
+            .modal-content
+                .modal-header
+                    h5.modal-title Создание персонажа
+                    button.close(data-dismiss="modal"): span &times;
+
+                .modal-body
+                    form
+                        .form-group
+                            input.form-control(name="server" placeholder="Сервер"
+                                v-model="characterData.server" required
+                            )
+                    
+                        .form-group
+                            input.form-control(name="name" placeholder="Имя"
+                                v-model="characterData.name" required
+                                :class="{'is-invalid': status && valid.name===false}"
+                                @focus="flushError"
+                            )
+                            small.invalid-feedback(v-if="messages.includes('ERR_NAME_BUSY')") Ник занят
+                    
+                        .form-group
+                            input.form-control(name="race" placeholder="Раса"
+                                v-model="characterData.race" required
+                            )
+                    
+                .modal-footer
+                    button.btn.btn-secondary(data-dismiss="modal") Закрыть
+                    button.btn.btn-primary(@click="createCharacter") Создать

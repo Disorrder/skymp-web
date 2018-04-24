@@ -1,38 +1,40 @@
 $root = "../../"
 
+animated()
+    transition all ease 0.3s
 
 // --- bg clip ---
-.bg-clip-text, .bg-clip-text-after:after, .bg-clip-text-before:before
+bgClipText()
     -webkit-background-clip text
     -webkit-text-fill-color transparent
 
 // --- gradients ---
-.bg-grad-down
+bgGradDown()
     background-image linear-gradient(to bottom, rgba(white, 0.4) 0%, rgba(white, 0) 100%)
     background-repeat no-repeat
 
-.bg-grad-right
+bgGradRight()
     background-image linear-gradient(to right, rgba(white, 0.4) 0%, rgba(white, 0) 100%)
     background-repeat no-repeat
 
-.bg-grad-center
+bgGradCenter()
     background-image linear-gradient(to right, rgba(white, 0) 0%, rgba(white, 0.4) 50%, rgba(white, 0) 100%)
     background-repeat no-repeat
 
 // --- border gradients
-.border-grad-down
+borderGradDown()
     border-width 2px
     border-style solid
     border-bottom-width 0
     border-image linear-gradient(to bottom, rgba(white, 0.8) 0%, rgba(white, 0) 100%) 1
 
-.border-grad-right
+borderGradRight()
     border-width 2px
     border-style solid
     border-right-width 0
     border-image linear-gradient(to right, rgba(white, 0.8) 0%, rgba(white, 0) 100%) 1
 
-.border-grad-center
+borderGradCenter()
     border-width 2px 0
     border-style solid
     border-image linear-gradient(to right, rgba(white, 0) 0%, rgba(white, 0.8) 50%, rgba(white, 0) 100%) 1

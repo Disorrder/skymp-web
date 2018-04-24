@@ -97,6 +97,11 @@ module.exports = {
         ],
         noParse: /\.min\.js$/
     },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+        }
+    },
     plugins: [
         flags.notify ? new WebpackNotifierPlugin({excludeWarnings: true}) : new Function(),
         flags.clean ? new CleanWebpackPlugin([cfg.path.build]) : new Function(),
@@ -123,9 +128,9 @@ module.exports = {
         // }),
 
         new webpack.ProvidePlugin({
-           $: 'jquery',
-           jQuery: 'jquery',
-           'window.jQuery': 'jquery',
+           // $: 'jquery',
+           // jQuery: 'jquery',
+           // 'window.jQuery': 'jquery',
            Popper: ['popper.js', 'default'],
            _: 'lodash',
        }),
