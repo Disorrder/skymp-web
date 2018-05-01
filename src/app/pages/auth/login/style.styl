@@ -2,6 +2,32 @@ $root = "../../../"
 
 #login
     color black
-    
-    // header
-    //     height 10%
+
+    .card-body
+        padding-top 0
+        padding-bottom 0.5rem
+
+    .card-title
+        padding 0
+        font-size 32px
+
+        background-image linear-gradient(to right, rgba(white, 0) 25%, rgba(white, 0.7), rgba(white, 0) 75%)
+        background-size 200%
+        background-position center
+
+        border-image none
+        border-color rgba(white, 0.7)
+
+        &.active-left
+            background-position right
+
+        &.active-right
+            background-position left
+
+        & > a
+            padding-top 0.25em
+
+            &:hover
+                text-decoration none
+            &:not(.router-link-active):hover
+                background-color rgba(white, 0.2)

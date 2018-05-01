@@ -32,7 +32,10 @@ div#profile.content
             
             
     // modals
-    .modal.fade#createCharacter(tabindex="-1")
+    b-modal.sky-modal(v-model="modalCharacter.opened")
+        p hello
+        
+    //- .modal.fade#createCharacter(tabindex="-1")
         .modal-dialog.dialog-centered
             .modal-content
                 .modal-header

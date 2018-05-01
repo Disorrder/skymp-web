@@ -6,17 +6,21 @@ export default {
     template: require('./template.pug')(),
     data() {
         return {
-            fakeCharacter: {
+            emptyCharacter: {
                 photo: defPhoto,
                 money: 0,
                 reputation: 0
             },
             character: null,
-            // create modal
-            characterData: {},
-            status: null,
-            valid: {},
-            messages: []
+
+            // character creation modal
+            modalCharacter: {
+                opened: false,
+                data: {},
+                status: null,
+                valid: {},
+                messages: []
+            }
         }
     },
     computed: {
@@ -25,24 +29,22 @@ export default {
     methods: {
         selectCharacter(char) {
             // if (!char) return;
-            this.character = char || this.fakeCharacter;
+            this.character = char || this.emptyCharacter;
             if (!this.character.photo) this.character.photo = defPhoto;
         },
         createCharacterModal() {
-            $('#createCharacter').modal();
-            if (!this.characterData.name) {
-                this.characterData = {
+            this.modalCharacter.opened = true;
+            if (!this.modalCharacter.data.name) {
+                this.modalCharacter.data = {
                     server: 0,
                     name: this.$root.user.username,
-                    race: 'human',
-                    class: 'warrior'
                 };
             }
         },
         createCharacter(e) {
             console.log(e);
 
-            console.log('Create character', this.characterData);
+            console.log('Create character', this.modalCharacter.data);
 
         },
 

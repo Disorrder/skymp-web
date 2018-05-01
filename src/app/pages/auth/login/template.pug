@@ -1,10 +1,13 @@
 div#login.content
     main.container.mt-4
-        .row.justify-content-center: .card.col-6: .card-body
+        .row.justify-content-center: .col-6: .card.sky-card: .card-body
+            .d-flex.card-title.animated(:class="{'active-left': $route.name=='login', 'active-right': $route.name=='register'}")
+                router-link.col.text-center.animated(:to="{name: 'login'}") Вход
+                router-link.col.text-center.animated(:to="{name: 'register'}") Регистрация
             form#auth.my-0(@submit="login")
-                h3.mb-4.text-center Вход
+                //- h3.mb-4.text-center Вход
                 .form-group
-                    input.form-control(name="username" placeholder="Логин / почта"
+                    input.form-control.sky-input(name="username" placeholder="Логин / почта"
                         v-model="userData.username" required
                         :class="{'is-invalid': status && valid.username===false}"
                         @focus="flushError"
@@ -12,15 +15,16 @@ div#login.content
                     small.invalid-feedback(v-if="messages.includes('ERR_INCORRECT_USERNAME')") Такого пользователя не существует
                     
                 .form-group
-                    input.form-control(name="password" type="password" placeholder="Пароль"
+                    input.form-control.sky-input(name="password" type="password" placeholder="Пароль"
                         v-model="userData.password" required
                         :class="{'is-invalid': status && valid.password===false}"
                         @focus="flushError"
                     )
                     small.invalid-feedback(v-if="messages.includes('ERR_INCORRECT_PASSWORD')") Неправильный пароль
                 
-                button.btn.btn-primary(type="submit" style="width: 100%;" :disabled="formDisabled") Войти
+                .buttons.text-center
+                    button.sky-btn.btn-primary(type="submit" style="min-width: 50%;" :disabled="formDisabled") Войти
                 
-                .form-group.text-center.my-0
-                    a.form-text.text-muted(href="javascript:void(0)" @click="forgotPassword") Забыл пароль
-                    router-link.form-text.text-muted(:to="{name: 'register'}") Регистрация
+                div.text-center.mt-2
+                    button.sky-btn.btn-info(@click="forgotPassword") Забыл пароль
+                    //- router-link.form-text.text-muted(:to="{name: 'register'}") Регистрация
