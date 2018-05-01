@@ -8,29 +8,20 @@ export default {
                 username: '',
                 password: '',
             },
-            valid: {},
             formDisabled: false,
-            status: null, // one of null, ok, error
-            messages: [],
         }
-    },
-    computed: {
-
     },
     methods: {
         login(e) {
-            e.preventDefault();
             if (this.formDisabled) return;
-
-            this.status = null;
-            this.messages = [];
-
-            this.validate();
-            if (this.status === 'error') return;
-
             this.formDisabled = true;
+            this.flushErrors();
 
-            $.post(config.api+'/auth/login', this.userData)
+            this.$validator.validateAll()
+                .then((res) => {
+                    if (!res) throw res;
+                    return $.post(config.api+'/auth/login', this.userData);
+                })
                 .then((user) => {
                     this.$root.saveCurrentUser(user);
                     localStorage.lastLogin = user.username;
@@ -40,44 +31,36 @@ export default {
                     this.$notify({type: 'success', title: 'Добро пожаловать!'});
                 })
                 .catch((res) => {
-                    this.status = 'error';
-                    this.messages.push(res.responseText);
-                    if (res.responseText === 'ERR_INCORRECT_USERNAME') this.valid.username = false;
-                    if (res.responseText === 'ERR_INCORRECT_PASSWORD') this.valid.password = false;
+                    if (!res) return;
+                    if (res.responseText === 'ERR_INCORRECT_USERNAME') return this.errors.add({field: 'username', rule: 'incorrect', msg: true});
+                    if (res.responseText === 'ERR_INCORRECT_PASSWORD') return this.errors.add({field: 'password', rule: 'incorrect', msg: true});
                 })
-                .always((res) => {
+                .finally((res) => {
                     this.formDisabled = false;
                 })
             ;
         },
 
         forgotPassword() {
-            this.flushError();
-            if (!this.userData.username) {
-                this.status = 'error';
-                this.valid.username = false;
-                this.messages.push('ERR_INCORRECT_USERNAME');
-                return;
-            }
+            this.flushErrors();
 
-            $.post(config.api+'/auth/reset', this.userData)
+            this.$validator.validate('username')
+                .then((res) => {
+                    if (!res) throw res;
+                    return $.post(config.api+'/auth/reset', this.userData)
+                })
                 .then(() => {
                     this.$notify({type: 'success', text: 'Письмо с инструкциями отправлено'});
                 })
                 .catch((res) => {
+                    if (!res) return;
                     if (res.responseText === 'ERR_MAIL_ALREADY_SENT') {
                         this.$notify({type: 'error', text: 'Письмо уже было отправлено. Не забудь проверить в спаме.'});
                         return;
                     }
 
                     if (res.responseText === 'ERR_INCORRECT_USERNAME') {
-                        console.log(this.valid);
-                        this.valid.username = false;
-                        this.messages.push(res.responseText);
-                    }
-                    if (!this.isFormValid()) {
-                        this.status = 'error';
-                        return;
+                        this.errors.add({field: 'username', rule: 'incorrect', msg: true});
                     }
 
                     this.$notify({type: 'error', text: 'Что-то пошло не так'});
@@ -86,26 +69,16 @@ export default {
             ;
         },
 
-        validate() {
-            ['username', 'password'].forEach((v) => {
-                this.valid[v] = !!this.userData[v];
+        flushErrors(selector) {
+            if (!selector) return this.errors.clear();
+
+            let [field, rule] = selector.split(':');
+            this.errors.items = this.errors.items.filter((v) => {
+                if (field && !rule) return !(v.field === field);
+                if (!field && rule) return !(v.rule === rule);
+                return !(v.field === field && v.rule === rule);
             });
-
-            if (!this.isFormValid()) {
-                this.status = 'error';
-                return;
-            }
-        },
-
-        isFormValid() {
-            return Object.values(this.valid).every((v) => v === true);
-        },
-
-        flushError() {
-            this.status = null;
-            this.messages = [];
-            for (let k in this.valid) this.valid[k] = true;
-        },
+        }
     },
     created() {
 

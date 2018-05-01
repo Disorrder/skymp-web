@@ -1,0 +1,8 @@
+div#auth.content
+    main.container.mt-4
+        .row.justify-content-center: .col-6: .card.sky-card: .card-body
+            .d-flex.card-title(:class="{'active-left': $route.name=='login', 'active-right': $route.name=='register'}")
+                router-link.col.text-center.animated(:to="{name: 'login'}") Вход
+                router-link.col.text-center.animated(:to="{name: 'register'}") Регистрация
+                
+            router-view

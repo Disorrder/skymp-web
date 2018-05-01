@@ -10,29 +10,20 @@ export default {
                 password: '',
                 password2: '',
             },
-            valid: {},
             formDisabled: false,
-            status: null,
-            messages: [],
         }
-    },
-    computed: {
-
     },
     methods: {
         register(e) {
-            e.preventDefault();
             if (this.formDisabled) return;
-
-            this.status = null;
-            this.messages = [];
-
-            this.validate();
-            if (this.status === 'error') return;
-
             this.formDisabled = true;
+            this.flushErrors();
 
-            $.post(config.api+'/user/add', this.userData)
+            this.$validator.validateAll()
+                .then((res) => {
+                    if (!res) throw res;
+                    return $.post(config.api+'/user/add', this.userData)
+                })
                 .then((user) => {
                     this.$root.saveCurrentUser(user);
                     localStorage.lastLogin = user.username;
@@ -40,10 +31,9 @@ export default {
                     this.$notify({type: 'success', title: 'Добро пожаловать!', text: 'Не забудь подтвердить почту ;)'});
                 })
                 .catch((res) => {
-                    this.status = 'error';
-                    this.messages.push(res.responseText);
-                    if (res.responseText === 'ERR_USERNAME_BUSY') this.valid.username = false;
-                    if (res.responseText === 'ERR_EMAIL_BUSY') this.valid.email = false;
+                    if (!res) return;
+                    if (res.responseText === 'ERR_USERNAME_BUSY') return this.errors.add({field: 'username', rule: 'busy', msg: true});
+                    if (res.responseText === 'ERR_EMAIL_BUSY') return this.errors.add({field: 'email', rule: 'busy', msg: true});
                 })
                 .always((res) => {
                     this.formDisabled = false;
@@ -51,46 +41,30 @@ export default {
             ;
         },
 
-        validate() {
-            ['username', 'email', 'password', 'password2'].forEach((v) => {
-                this.valid[v] = !!this.userData[v];
+        checkExists(field) {
+            return this.$validator.validate(field)
+                .then((res) => {
+                    if (!res) throw res;
+                    return $.get(config.api+'/user/check', {[field]: this.userData[field]});
+                })
+                .then((res) => {
+                    if (res) return this.errors.add({field, rule: 'busy', msg: true});
+                })
+                .catch((res) => {
+                    if (!res) return;
+                })
+            ;
+        },
+
+        flushErrors(selector) {
+            if (!selector) return this.errors.clear();
+
+            let [field, rule] = selector.split(':');
+            this.errors.items = this.errors.items.filter((v) => {
+                if (field && !rule) return !(v.field === field);
+                if (!field && rule) return !(v.rule === rule);
+                return !(v.field === field && v.rule === rule);
             });
-
-            if (!this.isFormValid()) {
-                this.status = 'error';
-                return;
-            }
-
-            if (this.userData.password.length < 6) {
-                this.valid.password = false;
-                this.messages.push('ERR_PASSWORD_TOO_SHORT');
-            }
-
-            if (this.userData.password !== this.userData.password2) {
-                this.valid.password2 = false;
-                this.messages.push('ERR_PASSWORDS_MISMATCH');
-            }
-
-            if (!this.isFormValid()) {
-                this.status = 'error';
-                return;
-            }
-        },
-
-        isFormValid() {
-            return Object.values(this.valid).every((v) => v === true);
-        },
-
-        flushError() {
-            this.status = null;
-            this.messages = [];
-        },
-
-        checkUsername() {
-
-        },
-        checkEmail() {
-
         }
     },
     created() {

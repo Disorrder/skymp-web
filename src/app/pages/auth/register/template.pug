@@ -1,46 +1,47 @@
-div#register.content
-    main.container.mt-4
-        .row.justify-content-center: .card.col-6: .card-body
-            form#auth.my-0(@submit="register")
-                h3.mb-4.text-center Регистрация
-                .form-group
-                    //- input.form-control(name="username" placeholder="Логин" required v-model="userData.username")
-                    input.form-control(name="username" placeholder="Логин"
-                        v-model="userData.username" required
-                        :class="{'is-invalid': status && valid.username===false}"
-                        @focus="flushError" @blur="checkUsername"
-                    )
-                    small.invalid-feedback(v-if="messages.includes('ERR_USERNAME_BUSY')") Такой ник уже занят
-                .form-group
-                    //- input.form-control(name="email" type="email" placeholder="Почта" required v-model="userData.email")
-                    input.form-control(name="email" type="email" placeholder="Почта"
-                        v-model="userData.email" required
-                        :class="{'is-invalid': status && valid.email===false}"
-                        @focus="flushError" @blur="checkEmail"
-                    )
-                    small.invalid-feedback(v-if="messages.includes('ERR_EMAIL_BUSY')") Почта уже в системе
-                .form-group
-                    input.form-control(name="password" type="password" placeholder="Пароль"
-                        v-model="userData.password" required
-                        :class="{'is-invalid': status && valid.password===false}"
-                        @focus="flushError"
-                    )
-                    small.invalid-feedback(v-if="messages.includes('ERR_PASSWORD_TOO_SHORT')") Да-да, здесь тоже не меньше 6 символов!
+form#register.my-0(@submit.prevent="register")
+    .form-group
+        input.form-control.sky-input.sky-input(name="username" placeholder="Логин"
+            v-model="userData.username" required
+            v-validate="'required|min:3|alpha_num'"
+            :class="{'is-invalid': errors.has('username')}"
+            @focus="flushErrors('username')" @blur="checkExists('username')"
+        )
+        small.invalid-feedback(v-if="errors.has('username')")
+            div(v-if="errors.first('username:min')") Не меньше 3 символов
+            div(v-if="errors.first('username:alpha_num')") Разрешены только английские буквы и цифры
+            div(v-if="errors.first('username:busy')") Такой ник уже занят
+    
+    .form-group
+        input.form-control.sky-input(name="email" type="email" placeholder="Почта"
+            v-model="userData.email" required
+            v-validate="'required|email'"
+            :class="{'is-invalid': errors.has('email')}"
+            @focus="flushErrors('email')" @blur="checkExists('email')"
+        )
+        small.invalid-feedback(v-if="errors.has('email')")
+            div(v-if="errors.first('email:busy')") Почта уже в системе
 
-                .form-group
-                    input.form-control(name="password2" type="password" placeholder="Пароль"
-                        v-model="userData.password2" required
-                        :class="{'is-invalid': status && valid.password2===false}"
-                        @focus="flushError"
-                    )
-                    small.invalid-feedback(v-if="messages.includes('ERR_PASSWORDS_MISMATCH')") Пароли не совпадают
+    .form-group
+        input.form-control.sky-input(name="password" type="password" placeholder="Пароль"
+            v-model="userData.password" required
+            v-validate="'required|min:6'"
+            :class="{'is-invalid': errors.has('password')}"
+            @focus="flushErrors('password')"
+        )
+        small.invalid-feedback(v-if="errors.has('password')")
+            div(v-if="errors.first('password:min')") Да-да, здесь тоже не меньше 6 символов!
 
-                button.btn.btn-primary(type="submit" style="width: 100%;" :disabled="formDisabled") Создать аккаунт
-                
-                .form-group.text-center.my-0
-                    a.form-text.text-muted(href="javascript:void(0)") Согласие с правилами
-                    
-                //- .form-group.mb-0
-                    small.form-text.text-danger.text-center(v-if="statusText === 'ERR_INCORRECT_USERNAME'") Неверное имя пользователя
-                    small.form-text.text-danger.text-center(v-if="statusText === 'ERR_INCORRECT_PASSWORD'") Неправильный пароль
-            
+    .form-group
+        input.form-control.sky-input(name="password2" type="password" placeholder="Пароль"
+            v-model="userData.password2" required
+            v-validate="'required|confirmed:password'"
+            :class="{'is-invalid': errors.has('password2')}"
+            @focus="flushErrors('password2')"
+        )
+        small.invalid-feedback(v-if="errors.has('password2')")
+            div(v-if="errors.first('password2')") Пароли не совпадают
+
+    button.sky-btn.btn.btn-primary(type="submit" style="width: 100%;" :disabled="formDisabled") Создать аккаунт
+    
+    .form-group.text-center.my-0
+        a.form-text.text-muted(href="javascript:void(0)") Согласие с правилами

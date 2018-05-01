@@ -13,7 +13,7 @@ router.post('/add', async (ctx) => {
 
     var user = new User(data);
     user.confirmToken = String.randomize(16);
-    
+
     try {
         await user.save();
         await sendEmail.confirmEmail({to: user.email, confirmToken: user.confirmToken, origin: ctx.get('origin')});
@@ -39,6 +39,14 @@ router.get('/', async (ctx) => {
     ctx.body = ctx.state.user;
 });
 
+router.get('/check', async (ctx) => {
+    var query;
+    if (ctx.query.username) query = {username: ctx.query.username};
+    if (ctx.query.email) query = {email: ctx.query.email};
+    var user = await User.findOne(query);
+    ctx.body = !!user;
+});
+
 router.get('/:id', async (ctx) => {
     if (!ctx.isAuthenticated()) return ctx.throw(401);
 
@@ -62,6 +70,5 @@ router.put('/:id', async (ctx) => {
 
     ctx.body = item;
 });
-
 
 module.exports = router;

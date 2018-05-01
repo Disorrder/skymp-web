@@ -43,7 +43,8 @@ button()
 
     color #2e3e3e
     font-family "Trajan Pro 3"
-    // font-size 48px
+    font-weight bold
+    line-height 2em
 
     cursor pointer
 
@@ -78,11 +79,12 @@ button()
     transition background ease 0.2s
 
     &:focus
-        background-color rgba(white, 0.1)
+        background-color rgba(white, 0.2)
         border-color transparent
         box-shadow none
 
-    &:invalid, &.is-invalid
+    &.is-invalid,
+    .was-validated &:invalid
         border-color transparent
         border-image linear-gradient(to right, rgba(#dc3545, 0.7) 0%, rgba(#dc3545, 0) 30%, rgba(#dc3545, 0) 70%, rgba(#dc3545, 0.7) 100%) 1
 
@@ -94,6 +96,9 @@ button()
 // Buttons
 .sky-btn
     button()
+
+    &.small
+        line-height 1.5em
 
     &.btn-primary
         background-color transparent

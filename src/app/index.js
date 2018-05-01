@@ -15,6 +15,9 @@ Vue.use(BootstrapVue);
 import Notifications from 'vue-notification'
 Vue.use(Notifications);
 
+import VeeValidate from 'vee-validate';
+Vue.use(VeeValidate);
+
 $.ajaxSetup({
     crossDomain: true,
     xhrFields: {
