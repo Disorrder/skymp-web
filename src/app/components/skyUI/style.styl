@@ -101,6 +101,9 @@ tile()
         font-weight bold
         font-style italic
 
+.sky-label
+    font-family Aniron
+
 // Buttons
 .sky-btn
     button()
@@ -157,8 +160,12 @@ tile()
 
 // Modal
 .sky-modal
+    .modal-backdrop.show
+        opacity 0.75
+
     .modal-content
         tile()
+        background rgba(white, 0.7)
 
     .modal-header
         border 0

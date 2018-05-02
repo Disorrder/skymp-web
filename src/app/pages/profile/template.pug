@@ -8,7 +8,7 @@ div#profile.content
                 .panel.border-grad-down
                     h3.border-grad-right: span.bg-clip-text Информация о персонаже
                     .panel-section.panel-character-empty(v-if="!$root.user.characters.length"): .row.text-center
-                        .btn.add.animated.offset-1.col-10.d-flex.flex-row.align-items-center(@click="createCharacterModal")
+                        .btn.add.animated.offset-1.col-10.d-flex.flex-row.align-items-center(@click="modalCharacterOpen")
                             .btn-icon: i.fa.fa-plus
                             .btn-text Создать персонажа
                         
@@ -32,12 +32,35 @@ div#profile.content
             
             
     // modals
-    b-modal.sky-modal(v-model="modalCharacter.opened" title="Создание персонажа")
-        p hello
+    b-modal.sky-modal(v-model="modalCharacter.opened" title="Создание персонажа" centered @shown="modalCharacterShown")
+        form(@submit.prevent="createCharacter")
+            .form-group
+                label.sky-label.small
+                    | Имя: 
+                    span(v-if="correctName && correctName !== modalCharacter.data.name") (Будет заменено на "{{correctName}}")
+                input.sky-input.form-control(name="name" placeholder="Имя"
+                    v-model="modalCharacter.data.name"
+                    v-validate="{required:true, min:2, max:24, regex: /^[a-z]+[ \'-]?[a-z]+$/i}"
+                    :class="{'is-invalid': errors.has('name')}"
+                    required
+                )
+                small.name-rules
+                    div Имя должно быть:
+                    ul
+                        li(:class="{'text-success': !errors.has('name:min') && !errors.has('name:max')}") - от 2 до 24 символов
+                        li(:class="{'text-success': !errors.has('name:regex')}")
+                            | - написано латинскими буквами. Допустимо использовать не более одного пробела, апострофа 
+                            b или 
+                            | дефиса в середине
+                    
+                //- small.invalid-feedback(v-if="errors.has('name')")
+                    div(v-if="errors.first('name:min')") {{errors.first('name:min')}}
+                    div(v-if="errors.first('name:max')") {{errors.first('name:max')}}
+                    div(v-if="errors.first('name:regex')") {{errors.first('name:regex')}}
         
         template(slot="modal-footer")
-            button.sky-btn.btn.btn-primary.col-5 Создать
-            button.sky-btn.btn.btn-primary.col-5 Отмена
+            button.sky-btn.btn.btn-primary.col-5(@click="createCharacter") Создать
+            button.sky-btn.btn.btn-primary.col-5(@click="modalCharacter.opened = false") Отмена
         
         
     //- .modal.fade#createCharacter(tabindex="-1")

@@ -1,6 +1,6 @@
 form#login.my-0(@submit.prevent="login")
     .form-group
-        input.form-control.sky-input(name="username" placeholder="Логин / почта"
+        input.sky-input.form-control(name="username" placeholder="Логин / почта"
             v-model="userData.username" required
             v-validate="'required'"
             :class="{'is-invalid': errors.has('username')}"
@@ -10,7 +10,7 @@ form#login.my-0(@submit.prevent="login")
             div(v-if="errors.first('username:incorrect')") Такого пользователя не существует
         
     .form-group
-        input.form-control.sky-input(name="password" type="password" placeholder="Пароль"
+        input.sky-input.form-control(name="password" type="password" placeholder="Пароль"
             v-model="userData.password" required
             v-validate="'required'"
             :class="{'is-invalid': errors.has('password')}"
