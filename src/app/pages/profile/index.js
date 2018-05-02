@@ -15,7 +15,7 @@ export default {
 
             // character creation modal
             modalCharacter: {
-                opened: false,
+                opened: !false,
                 data: {},
                 status: null,
                 valid: {},

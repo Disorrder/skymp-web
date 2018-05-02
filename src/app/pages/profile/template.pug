@@ -32,8 +32,13 @@ div#profile.content
             
             
     // modals
-    b-modal.sky-modal(v-model="modalCharacter.opened")
+    b-modal.sky-modal(v-model="modalCharacter.opened" title="Создание персонажа")
         p hello
+        
+        template(slot="modal-footer")
+            button.sky-btn.btn.btn-primary.col-5 Создать
+            button.sky-btn.btn.btn-primary.col-5 Отмена
+        
         
     //- .modal.fade#createCharacter(tabindex="-1")
         .modal-dialog.dialog-centered
