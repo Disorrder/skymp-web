@@ -36,7 +36,8 @@ router.post('/add', async (ctx) => {
 router.get('/', async (ctx) => {
     // Get current user. May be rename route to /me?
     if (!ctx.isAuthenticated()) return ctx.throw(401);
-    ctx.body = ctx.state.user;
+    let user = await User.findById(ctx.state.user._id).populate('characters');
+    ctx.body = user;
 });
 
 router.get('/check', async (ctx) => {

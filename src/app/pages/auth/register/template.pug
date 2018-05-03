@@ -9,7 +9,7 @@ form#register.my-0(@submit.prevent="register")
         small.invalid-feedback(v-if="errors.has('username')")
             div(v-if="errors.first('username:min')") Не меньше 3 символов
             div(v-if="errors.first('username:alpha_num')") Разрешены только английские буквы и цифры
-            div(v-if="errors.first('username:busy')") Такой ник уже занят
+            div(v-if="errors.first('username:unique')") Такой ник уже занят
     
     .form-group
         input.form-control.sky-input(name="email" type="email" placeholder="Почта"
@@ -19,7 +19,7 @@ form#register.my-0(@submit.prevent="register")
             @focus="flushErrors('email')" @blur="checkExists('email')"
         )
         small.invalid-feedback(v-if="errors.has('email')")
-            div(v-if="errors.first('email:busy')") Почта уже в системе
+            div(v-if="errors.first('email:unique')") Почта уже в системе
 
     .form-group
         input.form-control.sky-input(name="password" type="password" placeholder="Пароль"

@@ -13,9 +13,11 @@ export default {
             },
             character: null,
 
+            serverList: [],
+
             // character creation modal
             modalCharacter: {
-                opened: !false,
+                opened: false,
                 disabled: false,
                 data: {},
             }
@@ -44,12 +46,11 @@ export default {
 
         modalCharacterOpen() {
             this.modalCharacter.opened = true;
-            if (!this.modalCharacter.data.name) {
-                this.modalCharacter.data = {
-                    server: 0,
-                    name: this.$root.user.username,
-                };
-            }
+            var data = this.modalCharacter.data;
+            if (!data.name) data.name = this.$root.user.username;
+            if (!data.server && this.serverList.length) data.server = this.serverList[0]._id;
+            console.log(data.server, this.serverList.length);
+            console.log(this.serverList[0]._id);
         },
         modalCharacterShown() {
             console.log('qweqe', $('.sky-modal input[name="name"]')[0]);
@@ -66,14 +67,15 @@ export default {
                 .then((res) => {
                     if (!res) throw res;
                     this.modalCharacter.data.name = this.correctName;
-                    // return $.post(config.api+'/character/add', this.modalCharacter.data)
+                    return $.post(config.api+'/character/add', this.modalCharacter.data)
                 })
                 .then((res) => {
                     console.log('Created', res, this.modalCharacter.data);
+                    this.modalCharacter.opened = false;
                 })
                 .catch((res) => {
                     if (!res) return res;
-
+                    this.errors.add({field: 'name', rule: 'unique', msg: true});
                 })
                 .finally((res) => {
                     this.modalCharacter.disabled = false;
@@ -95,6 +97,12 @@ export default {
     },
     created() {
         var user = this.$root.user;
+        console.log('usr', user.characters);
         this.selectCharacter(user.characters[0]);
+
+        $.get(config.api+'/server').then((res) => {
+            this.serverList = res;
+            if (!user.characters.length) this.modalCharacterOpen();
+        });
     }
 };

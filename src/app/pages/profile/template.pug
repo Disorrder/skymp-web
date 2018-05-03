@@ -44,6 +44,10 @@ div#profile.content
                     :class="{'is-invalid': errors.has('name')}"
                     required
                 )
+                small.text-warning(v-if="!modalCharacter.data.server") Сервер не выбран
+                small.invalid-feedback(v-if="errors.has('name')")
+                    div(v-if="errors.first('name:unique')") Имя уже занято
+                
                 small.name-rules
                     div Имя должно быть:
                     ul
@@ -53,43 +57,6 @@ div#profile.content
                             b или 
                             | дефиса в середине
                     
-                //- small.invalid-feedback(v-if="errors.has('name')")
-                    div(v-if="errors.first('name:min')") {{errors.first('name:min')}}
-                    div(v-if="errors.first('name:max')") {{errors.first('name:max')}}
-                    div(v-if="errors.first('name:regex')") {{errors.first('name:regex')}}
-        
         template(slot="modal-footer")
             button.sky-btn.btn.btn-primary.col-5(@click="createCharacter") Создать
             button.sky-btn.btn.btn-primary.col-5(@click="modalCharacter.opened = false") Отмена
-        
-        
-    //- .modal.fade#createCharacter(tabindex="-1")
-        .modal-dialog.dialog-centered
-            .modal-content
-                .modal-header
-                    h5.modal-title Создание персонажа
-                    button.close(data-dismiss="modal"): span &times;
-
-                .modal-body
-                    form
-                        .form-group
-                            input.form-control(name="server" placeholder="Сервер"
-                                v-model="characterData.server" required
-                            )
-                    
-                        .form-group
-                            input.form-control(name="name" placeholder="Имя"
-                                v-model="characterData.name" required
-                                :class="{'is-invalid': status && valid.name===false}"
-                                @focus="flushError"
-                            )
-                            small.invalid-feedback(v-if="messages.includes('ERR_NAME_BUSY')") Ник занят
-                    
-                        .form-group
-                            input.form-control(name="race" placeholder="Раса"
-                                v-model="characterData.race" required
-                            )
-                    
-                .modal-footer
-                    button.btn.btn-secondary(data-dismiss="modal") Закрыть
-                    button.btn.btn-primary(@click="createCharacter") Создать

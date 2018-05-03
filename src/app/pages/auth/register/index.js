@@ -32,8 +32,8 @@ export default {
                 })
                 .catch((res) => {
                     if (!res) return;
-                    if (res.responseText === 'ERR_USERNAME_BUSY') return this.errors.add({field: 'username', rule: 'busy', msg: true});
-                    if (res.responseText === 'ERR_EMAIL_BUSY') return this.errors.add({field: 'email', rule: 'busy', msg: true});
+                    if (res.responseText === 'ERR_USERNAME_BUSY') return this.errors.add({field: 'username', rule: 'unique', msg: true});
+                    if (res.responseText === 'ERR_EMAIL_BUSY') return this.errors.add({field: 'email', rule: 'unique', msg: true});
                 })
                 .always((res) => {
                     this.formDisabled = false;
