@@ -27,6 +27,7 @@ router.post('/login', async (ctx) => {
 
     // TODO: remove hash
     ctx.login(user);
+    user.password = null;
     ctx.body = user;
 });
 
