@@ -7,15 +7,16 @@ div#profile.content
             .col-12.col-lg-8.offset-xl-1.col-xl-7
                 .panel.border-grad-down
                     h3.border-grad-right: span.bg-clip-text Информация о персонаже
-                    .panel-section.panel-character-empty(v-if="!$root.user.characters.length"): .row.text-center
+                    .panel-section.panel-character-empty(v-if="$root.user.characters.length < $root.user.charactersMax"): .row.text-center
                         .btn.add.animated.offset-1.col-10.d-flex.flex-row.align-items-center(@click="modalCharacterOpen")
                             .btn-icon: i.fa.fa-plus
                             .btn-text Создать персонажа
                         
-                    .panel-section.panel-character(v-if="$root.user.characters.length"): .row.text-center
-                        .offset-1.col-2 x x x x x x x x x x x x x x x x x x x x x x x
-                        .col-6 xxx xxx xxx xxx xxx
-                        .col-2 x x x x x x x x x x x x x x x x x x x x x x x x x x x x
+                    .panel-section.panel-character(v-if="$root.user.characters.length")
+                        .row.text-center(v-for="item in $root.user.characters")
+                            .offset-1.col-2 x x x x x x x x x x x x x x x x x x x x x x x
+                            .col-6 xxx xxx xxx xxx xxx
+                            .col-2 x x x x x x x x x x x x x x x x x x x x x x x x x x x x
                         
                     h3.border-grad-right: span.bg-clip-text Безопасность аккаунта
                     .panel-section.panel-account
@@ -34,6 +35,7 @@ div#profile.content
     // modals
     b-modal.sky-modal(v-model="modalCharacter.opened" title="Создание персонажа" centered @shown="modalCharacterShown")
         form(@submit.prevent="createCharacter")
+            b-alert(:show="!modalCharacter.data.server" variant="danger") Сервер не выбран
             .form-group
                 label.sky-label.small
                     | Имя: 
@@ -44,7 +46,6 @@ div#profile.content
                     :class="{'is-invalid': errors.has('name')}"
                     required
                 )
-                small.text-warning(v-if="!modalCharacter.data.server") Сервер не выбран
                 small.invalid-feedback(v-if="errors.has('name')")
                     div(v-if="errors.first('name:unique')") Имя уже занято
                 

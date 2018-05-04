@@ -6,7 +6,6 @@ var schema = new Schema({
     email: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
     username: { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
     password: { type: String, required: true, select: false },
-    // hash: { type: String, required: true, select: false },
     // Security
     confirmToken: { type: String, select: false },
     resetToken: { type: String, select: false },
@@ -20,6 +19,7 @@ var schema = new Schema({
         name: String,
         birthdate: Date,
     },
+    // characters: [],
     characters: [{type: Schema.Types.ObjectId, ref: 'Character'}],
     charactersMax: { type: Number, default: 1 },
     skyPoints: { type: Number, default: 0 },

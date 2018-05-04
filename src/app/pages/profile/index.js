@@ -6,6 +6,7 @@ export default {
     template: require('./template.pug')(),
     data() {
         return {
+            characters: [],
             emptyCharacter: {
                 photo: defPhoto,
                 money: 0,
@@ -17,7 +18,7 @@ export default {
 
             // character creation modal
             modalCharacter: {
-                opened: false,
+                opened: !false,
                 disabled: false,
                 data: {},
             }
@@ -48,12 +49,11 @@ export default {
             this.modalCharacter.opened = true;
             var data = this.modalCharacter.data;
             if (!data.name) data.name = this.$root.user.username;
-            if (!data.server && this.serverList.length) data.server = this.serverList[0]._id;
+            if (!data.server && this.serverList[0]) data.server = this.serverList[0]._id;
             console.log(data.server, this.serverList.length);
             console.log(this.serverList[0]._id);
         },
         modalCharacterShown() {
-            console.log('qweqe', $('.sky-modal input[name="name"]')[0]);
             $('.sky-modal input[name="name"]')[0].focus();
         },
 
@@ -71,11 +71,14 @@ export default {
                 })
                 .then((res) => {
                     console.log('Created', res, this.modalCharacter.data);
+                    this.$root.user.characters.push(res);
                     this.modalCharacter.opened = false;
                 })
                 .catch((res) => {
                     if (!res) return res;
-                    this.errors.add({field: 'name', rule: 'unique', msg: true});
+                    if (res.responseText === 'ERR_DUPLICATE_CHARACTER') {
+                        this.errors.add({field: 'name', rule: 'unique', msg: true});
+                    }
                 })
                 .finally((res) => {
                     this.modalCharacter.disabled = false;
@@ -103,6 +106,8 @@ export default {
         $.get(config.api+'/server').then((res) => {
             this.serverList = res;
             if (!user.characters.length) this.modalCharacterOpen();
+            console.log('srv', res);
+            this.modalCharacterOpen();
         });
     }
 };
