@@ -10,7 +10,7 @@ var router = new VueRouter({
 
         {name: 'auth', path: '', component: require('app/pages/auth').default, children: [
             {name: 'login', path: '/login', component: require('app/pages/auth/login').default},
-            {name: 'register', path: '/register', component: require('app/pages/auth/register').default},            
+            {name: 'register', path: '/register', component: require('app/pages/auth/register').default},
         ]},
         {name: 'reset', path: '/reset', component: require('app/pages/auth/reset').default},
         {name: 'confirm', path: '/auth/confirm', component: require('app/pages/auth/confirm').default},
@@ -21,12 +21,14 @@ var router = new VueRouter({
 
 export default router;
 
+import store from './store';
+
 router.beforeEach((to, from, next) => {
     // TODO: get app, auth to vuex
     console.log(to, to.matched, to.meta);
 
-    if (to.meta.needAuth) {
-        $.get(config.api+'/user')
+    if (to.meta.needAuth && !store.isAuthenticated) {
+        store.dispatch('updateUser')
             .then((res) => {
                 next();
             })

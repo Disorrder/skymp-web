@@ -47,7 +47,7 @@ module.exports = {
     watch: flags.watch,
     entry: {
         vendor: `app/vendor.js`,
-        app: `app/index.js`,
+        main: `app/index.js`,
     },
     output: {
         path: path.resolve(__dirname, cfg.path.build),

@@ -18,7 +18,7 @@ router.post('/add', async (ctx) => {
     ctx.body = item;
 });
 
-router.get('/', async (ctx) => {
+router.get('s', async (ctx) => {
     // Get list
     var list = await Server.find({});
     ctx.body = list;

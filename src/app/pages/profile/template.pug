@@ -1,19 +1,19 @@
 div#profile.content
     main.container
         .row: .col
-            h2.bg-clip-text.mb-4.float-right Добро пожаловать, {{$root.user.username}}!
+            h2.bg-clip-text.mb-4.float-right Добро пожаловать, {{$store.state.user.username}}!
             
         .row
             .col-12.col-lg-8.offset-xl-1.col-xl-7
                 .panel.border-grad-down
                     h3.border-grad-right: span.bg-clip-text Информация о персонаже
-                    .panel-section.panel-character-empty(v-if="$root.user.characters.length < $root.user.charactersMax"): .row.text-center
+                    .panel-section.panel-character-empty(v-if="characters.length < $store.state.user.charactersMax"): .row.text-center
                         .btn.add.animated.offset-1.col-10.d-flex.flex-row.align-items-center(@click="modalCharacterOpen")
                             .btn-icon: i.fa.fa-plus
                             .btn-text Создать персонажа
                         
-                    .panel-section.panel-character(v-if="$root.user.characters.length")
-                        .row.text-center(v-for="item in $root.user.characters")
+                    .panel-section.panel-character(v-if="characters.length")
+                        .row.text-center(v-for="item in characters")
                             .offset-1.col-2 x x x x x x x x x x x x x x x x x x x x x x x
                             .col-6 xxx xxx xxx xxx xxx
                             .col-2 x x x x x x x x x x x x x x x x x x x x x x x x x x x x
@@ -28,14 +28,14 @@ div#profile.content
                 aside.character-info(v-if="character")
                     div.text-center: img(:src="character.photo")
                     div.info-field.text-center.bg-grad-center.border-grad-center {{character.money}} септимов
-                    div.info-field.text-center.bg-grad-center.border-grad-center {{$root.user.skyPoints}} SkyPoints
+                    div.info-field.text-center.bg-grad-center.border-grad-center {{$store.state.user.skyPoints}} SkyPoints
                     div.info-field.text-center.bg-grad-center.border-grad-center Репутация: {{character.reputation}}
             
             
     // modals
     b-modal.sky-modal(v-model="modalCharacter.opened" title="Создание персонажа" centered @shown="modalCharacterShown")
         form(@submit.prevent="createCharacter")
-            b-alert(:show="!modalCharacter.data.server" variant="danger") Сервер не выбран
+            b-alert(:show="!modalCharacter.data.server" variant="danger") Что-то пошло не так и у меня не получилось загрузить параметры сервера. :с
             .form-group
                 label.sky-label.small
                     | Имя: 

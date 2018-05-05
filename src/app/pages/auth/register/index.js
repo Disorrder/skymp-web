@@ -25,8 +25,7 @@ export default {
                     return $.post(config.api+'/user/add', this.userData)
                 })
                 .then((user) => {
-                    this.$root.saveCurrentUser(user);
-                    localStorage.lastLogin = user.username;
+                    this.$store.commit('login', user);
                     this.$router.push({name: 'profile'});
                     this.$notify({type: 'success', title: 'Добро пожаловать!', text: 'Не забудь подтвердить почту ;)'});
                 })

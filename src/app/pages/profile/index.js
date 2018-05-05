@@ -6,7 +6,6 @@ export default {
     template: require('./template.pug')(),
     data() {
         return {
-            characters: [],
             emptyCharacter: {
                 photo: defPhoto,
                 money: 0,
@@ -14,17 +13,25 @@ export default {
             },
             character: null,
 
-            serverList: [],
-
             // character creation modal
+            characterData: {},
             modalCharacter: {
-                opened: !false,
+                opened: false,
                 disabled: false,
-                data: {},
+                data: {
+                    name: null,
+                    server: null
+                },
             }
         }
     },
     computed: {
+        // user() { return this.$store.state.user; },
+        characters() { return this.$store.state.characters; },
+        serverList() { return this.$store.state.servers; },
+
+        // character() { return this.characters[0] || this.emptyCharacter; },
+
         correctName() {
             if (this.errors.has('name')) return;
             var str = this.modalCharacter.data.name;
@@ -40,18 +47,15 @@ export default {
     },
     methods: {
         selectCharacter(char) {
-            // if (!char) return;
             this.character = char || this.emptyCharacter;
             if (!this.character.photo) this.character.photo = defPhoto;
         },
 
         modalCharacterOpen() {
-            this.modalCharacter.opened = true;
             var data = this.modalCharacter.data;
-            if (!data.name) data.name = this.$root.user.username;
+            if (!data.name) data.name = this.$store.state.user.username;
             if (!data.server && this.serverList[0]) data.server = this.serverList[0]._id;
-            console.log(data.server, this.serverList.length);
-            console.log(this.serverList[0]._id);
+            this.modalCharacter.opened = true;
         },
         modalCharacterShown() {
             $('.sky-modal input[name="name"]')[0].focus();
@@ -60,7 +64,6 @@ export default {
         createCharacter() {
             if (this.modalCharacter.disabled) return;
             this.modalCharacter.disabled = true;
-            console.log('Create character', this.modalCharacter.data);
             this.flushErrors();
 
             this.$validator.validateAll()
@@ -70,8 +73,7 @@ export default {
                     return $.post(config.api+'/character/add', this.modalCharacter.data)
                 })
                 .then((res) => {
-                    console.log('Created', res, this.modalCharacter.data);
-                    this.$root.user.characters.push(res);
+                    this.characters.push(res);
                     this.modalCharacter.opened = false;
                 })
                 .catch((res) => {
@@ -99,15 +101,12 @@ export default {
         }
     },
     created() {
-        var user = this.$root.user;
-        console.log('usr', user.characters);
-        this.selectCharacter(user.characters[0]);
-
-        $.get(config.api+'/server').then((res) => {
-            this.serverList = res;
-            if (!user.characters.length) this.modalCharacterOpen();
-            console.log('srv', res);
-            this.modalCharacterOpen();
+        Promise.all([
+            this.$store.dispatch('updateCharacters'),
+            this.$store.dispatch('updateServers'),
+        ]).then((res) => {
+            this.selectCharacter(this.characters[0]);
+            if (!this.characters.length) this.modalCharacterOpen();
         });
     }
 };

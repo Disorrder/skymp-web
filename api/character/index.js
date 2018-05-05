@@ -29,6 +29,7 @@ router.post('/add', async (ctx) => {
 
     try {
         var char = await request.post(serverUrl+'/character/add').form(data);
+        char = JSON.parse(char);
         // var item = new Model(char);
         // item.save();
         ctx.state.user.characters.push(char._id);
@@ -47,12 +48,16 @@ router.post('/add', async (ctx) => {
 });
 
 // TODO: request all servers /refresh
-router.get('/', async (ctx) => {
+router.get('s', async (ctx) => {
     // get array of users's characters
     var list = ctx.state.user.characters.map(async (id) => {
+        console.log(id);
         return await Model.findById(id);
     });
-    list = await Promise.all(list);
+    list = await Promise.all(list).then((res) => {
+        console.log('chars', res);
+        return res;
+    });
     ctx.body = list;
 });
 

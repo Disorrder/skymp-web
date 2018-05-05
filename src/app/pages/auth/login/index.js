@@ -20,11 +20,9 @@ export default {
             this.$validator.validateAll()
                 .then((res) => {
                     if (!res) throw res;
-                    return $.post(config.api+'/auth/login', this.userData);
+                    return this.$store.dispatch('login', this.userData);
                 })
                 .then((user) => {
-                    this.$root.saveCurrentUser(user);
-                    localStorage.lastLogin = user.username;
                     if (this.$route.query.redirect) {
                         this.$router.push(this.$route.query.redirect);
                     }

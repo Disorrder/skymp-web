@@ -14,8 +14,7 @@ export default {
             $.get(config.api+'/auth/confirm/'+token)
                 .then((user) => {
                     console.log('Confirm success', user);
-                    this.$root.saveCurrentUser(user);
-                    localStorage.lastLogin = user.username;
+                    this.$store.commit('login', user);
 
                     this.$notify({type: 'success', title: 'Почта успешно подтверждена.'});
                     this.$router.push({name: 'profile'});

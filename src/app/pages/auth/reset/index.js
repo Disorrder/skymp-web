@@ -24,8 +24,7 @@ export default {
             this.userData.token = token;
             $.post(config.api+'/auth/reset/'+token, this.userData)
                 .then((user) => {
-                    this.$root.saveCurrentUser(user);
-                    localStorage.lastLogin = user.username;
+                    this.$store.commit('login', user);
 
                     this.$notify({type: 'success', title: 'Пароль успешно изменён'});
                     this.$router.push({name: 'profile'});
