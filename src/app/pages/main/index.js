@@ -4,7 +4,9 @@ export default {
     template: require('./template.pug')(),
     data() {
         return {
-
+            carousel: {
+                current: 0,
+            },
         }
     },
     created() {

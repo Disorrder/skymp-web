@@ -7,7 +7,32 @@ section#newbie.section.py-2: .container
             | Чем я могу заняться в 
             span.name SkyMP?
             
-        div#newb-carousel.carousel.carousel-flex.slide(data-ride="newb-carousel")
+        b-carousel#newb-carousel(controls :interval="0" v-model="newbieCarousel.current")
+            each item, i in data.newbieItems
+                b-carousel-slide.text-center
+                    div
+                        h3.d-flex.justify-content-between.align-items-center.text-uppercase
+                            img.icon1(src=item.icon1)
+                            span.text-center #{item.title}
+                            img.icon2(src=item.icon2)
+                        //- p.carousel-item-text.text-center.d-flex.flex-column.justify-content-between !{item.text}
+                        div.carousel-item-text.text-center.flex-full.d-flex.flex-column.justify-content-between
+                            each text in item.text.split('\n')
+                                p #{text}
+
+        ol.carousel-indicators.d-flex.justify-content-between.mt-2
+            each item, i in data.newbieItems
+                li.d-flex.flex-column.mx-3(:class=`{active: newbieCarousel.current === ${i}}`
+                    @click=`newbieCarousel.current = ${i}`
+                )
+                    div.icon.d-flex.justify-content-center.animated
+                        img.icon1(src=item.icon1)
+                        img.icon2(src=item.icon2)
+                    div.title.text-center.animated #{item.title}
+
+
+            
+        //- div#newb-carousel.carousel.carousel-flex.slide(data-ride="newb-carousel")
             .carousel-inner.border-grad-center
                 each item, i in data.newbieItems
                     .carousel-item.px-4(class=`${i==0 ? 'active' : ''}`)

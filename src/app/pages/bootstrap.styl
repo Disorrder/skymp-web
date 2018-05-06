@@ -1,3 +1,5 @@
+$root = '../../'
+
 .carousel
     .carousel-item > img
         // object-fit contain
@@ -5,12 +7,23 @@
         max-height 100%
 
     .carousel-control-prev, .carousel-control-next
-        & > img
-            // width 48px
-            // height 48px
+        transition opacity ease 0.3s
 
-        &:hover > img
-            filter drop-shadow(0 0 4px #fff)
+    .carousel-control-prev-icon, .carousel-control-next-icon
+        width 60px
+        height 60px
+    .carousel-control-prev-icon
+        background-image url($root+'assets/icons/arrow-l.png')
+    .carousel-control-next-icon
+        background-image url($root+'assets/icons/arrow-r.png')
+
+    .carousel-control-prev:hover > .carousel-control-prev-icon,
+    .carousel-control-next:hover > .carousel-control-next-icon
+        filter drop-shadow(0 0 4px #fff)
+
+    .carousel-control-prev-icon, .carousel-control-next-icon
+        transition filter ease 0.3s
+
 
 
 .carousel.carousel-flex

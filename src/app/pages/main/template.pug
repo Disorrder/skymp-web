@@ -6,27 +6,16 @@ div#main
         //- .row.no-gutters: .col-12.text-center
             a#btn-play.font-header.text-uppercase(href="#")
         
-        .row.mt-3: div.col-12
-            if (data.carouselItems && data.carouselItems.length)
-                div#carousel.carousel.slide(data-ride="carousel")
-                    .carousel-inner
-                        each item, i in data.carouselItems
-                            .carousel-item.h-100.text-center(class=`${i==0 ? 'active' : ''}`)
-                                img(src=item.img)
-
-                    .carousel-controls
-                        a.carousel-control-prev(href="#carousel" role="button" data-slide="prev")
-                            img.animated(src=require('assets/icons/arrow-l.png'))
-                        a.carousel-control-next(href="#carousel" role="button" data-slide="next")
-                            img.animated(src=require('assets/icons/arrow-r.png'))
-                    //- ol.carousel-indicators
-                        each item, i in data.carouselItems
-                            li(class=`${i==0 ? 'active' : ''}` data-target="#carousel" data-slide-to=i)
-                                
+        .row.mt-3: .col-12
+            #carousel-wrapper
+                b-carousel#carousel(controls :interval="0" v-model="carousel.current")
+                    each item, i in data.carouselItems
+                        b-carousel-slide.text-center(img-src=item.img)
+        
                 div#carousel-footer
                     div.text-1 TESV: Skyrim -
                     div.text-2 Теперь в многопользовательском режиме
-  
+
     main.container
         div.row
             div#articles.col-sm-9

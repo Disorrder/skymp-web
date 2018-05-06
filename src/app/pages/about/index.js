@@ -5,7 +5,9 @@ export default {
     template: require('./template.pug')(),
     data() {
         return {
-
+            newbieCarousel: {
+                current: 0
+            }
         }
     },
     created() {
