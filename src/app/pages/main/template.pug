@@ -3,7 +3,7 @@ if !data
 
 div#main
     header.container
-        .row.no-gutters: .col-12.text-center
+        //- .row.no-gutters: .col-12.text-center
             a#btn-play.font-header.text-uppercase(href="#")
         
         .row.mt-3: div.col-12
@@ -55,7 +55,8 @@ div#main
                 div.panel
                     div#server-status.border-grad-down.text-center
                         //- span.status-text.text-success Онлайн
-                        span.status-text.text-warning В разработке
+                        div.status-text.text-danger Сервер оффлайн
+                        div.status-text.text-warning Проект в разработке
                     
                     each item, i in data.sidebarLinks
                         a.sidebar-item.sidebar-item_link(href=item.url): img(src=item.img)
