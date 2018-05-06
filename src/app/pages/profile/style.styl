@@ -65,8 +65,6 @@ $root = "../../../"
                 opacity 1
                 text-shadow 0 0 3px white, 0 0 2px white
 
-                // .btn-text
-
             .btn-icon
                 font-size 3em
                 border 1px dashed #ddd
@@ -81,6 +79,33 @@ $root = "../../../"
                 // line-height 1.7em
                 flex 1 0
 
+    .panel-character
+        & > ul > li
+            &:after
+                content ""
+                display block
+                width 90%
+                margin auto
+                height 3px
+
+                $color = white
+                background-image linear-gradient(to right, rgba($color, 0), rgba($color, 1), rgba($color, 0))
+
+            &:last-child:after
+                display none
+
+        .character-info
+            font-family Aniron
+            font-size 18px
+            line-height 1.8em
+
+        .no-rank
+            opacity 0.7
+            filter blur(3px)
+
+        .aniron-number
+            font-size 1.5em
+            line-height (1 / 1.5)em
 
     aside.character-info
             .info-field

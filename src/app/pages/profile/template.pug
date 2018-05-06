@@ -13,16 +13,35 @@ div#profile.content
                             .btn-text Создать персонажа
                         
                     .panel-section.panel-character(v-if="characters.length")
-                        .row.text-center(v-for="item in characters")
-                            .offset-1.col-2 x x x x x x x x x x x x x x x x x x x x x x x
-                            .col-6 xxx xxx xxx xxx xxx
-                            .col-2 x x x x x x x x x x x x x x x x x x x x x x x x x x x x
+                        ul.mb-0: li(v-for="item in characters"): .row.justify-content-center.text-center.py-3
+                            .col-2(v-if="item.rank")
+                                span {{item.rank}}
+                                img(src=require('./assets/rank-bg.png'))
+                                
+                            .col-7.character-info(:class="{'col-10': !item.rank && !item.faction}")
+                                div {{item.name}}
+                                div(v-if="item.race") {{item.race | race}}
+                                div <span class="aniron-number">{{item.level || 1}}</span> Уровень
+                                //- div
+                                    span.aniron-number 1
+                                    span  Уровень
+                                div
+                                    span В SkyMP с
+                                    span.aniron-number  {{item.createdAt | date}}
+                                    
+                            .col-2(v-if="item.faction")
+                                span {{item.faction}}
+                                img(src=require('./assets/faction-bg.png'))
+                                
                         
                     h3.border-grad-right: span.bg-clip-text Безопасность аккаунта
-                    .panel-section.panel-account
-                        .panel-link.text-center Изменить пароль
-                        .panel-link.text-center Привязать ВКонтакте
+                    .panel-section.panel-account.text-center
+                        div: a.panel-link(href="#" @click.prevent="notifySoon" disabled) Изменить пароль
+                        div: a.panel-link(href="#" @click.prevent="notifySoon" disabled) Привязать ВКонтакте
                     //- h3.border-grad-right: span.bg-clip-text Обратиться в поддержку
+            
+                .buttons.text-center.my-4
+                    button.sky-btn.btn-info(@click="logout" style="width: 33%") Выход
             
             .col-12.col-lg-4.offset-xl-1.col-xl-3.order-first.order-lg-last
                 aside.character-info(v-if="character")

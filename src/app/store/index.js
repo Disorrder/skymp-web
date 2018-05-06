@@ -42,7 +42,7 @@ var store = new Vuex.Store({
                 return res;
             });
         },
-        logout() {
+        logout({commit}) {
             return $.get(config.api+'/auth/logout').then((res) => {
                 commit('logout');
                 return res;

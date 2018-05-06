@@ -25,6 +25,8 @@ export default {
                 .then((user) => {
                     if (this.$route.query.redirect) {
                         this.$router.push(this.$route.query.redirect);
+                    } else {
+                        this.$router.push({name: 'profile'});
                     }
                     this.$notify({type: 'success', title: 'Добро пожаловать!'});
                 })

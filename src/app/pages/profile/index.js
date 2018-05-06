@@ -2,6 +2,9 @@ import './style.styl';
 
 var defPhoto = require('./assets/profile-test-photo.png');
 
+const races = ["Имперец", ""];
+const classes = ["Воин", ""];
+
 export default {
     template: require('./template.pug')(),
     data() {
@@ -30,8 +33,6 @@ export default {
         characters() { return this.$store.state.characters; },
         serverList() { return this.$store.state.servers; },
 
-        // character() { return this.characters[0] || this.emptyCharacter; },
-
         correctName() {
             if (this.errors.has('name')) return;
             var str = this.modalCharacter.data.name;
@@ -44,6 +45,14 @@ export default {
             str = str[0].toUpperCase() + str.substr(1); // capitalize
             return str;
         }
+    },
+    filters: {
+        date(val) {
+            var d = new Date(val);
+            return `${d.getDate()}.${d.getMonth()+1}.${d.getFullYear()}`;
+        },
+        race(val = 0) { return races[val]; },
+        class(val = 0) { return classes[val]; },
     },
     methods: {
         selectCharacter(char) {
@@ -98,6 +107,17 @@ export default {
                 if (!field && rule) return !(v.rule === rule);
                 return !(v.field === field && v.rule === rule);
             });
+        },
+
+        logout() {
+            this.$store.dispatch('logout').then(() => {
+                this.$router.push({name: 'login'});
+                this.$notify({ title: "Счастливо!" });
+            });
+        },
+
+        notifySoon() {
+            this.$notify({ title: "Скоро!" });
         }
     },
     created() {
