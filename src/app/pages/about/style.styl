@@ -78,8 +78,9 @@ xl = 1200px
             & > img
                 max-width 100%
 
-            & > img.shadow
-                filter drop-shadow(0 0 1px $color) drop-shadow(0 0 1px $color) drop-shadow(0 0 1px $color) drop-shadow(0 0 1px $color) drop-shadow(0 0 1px $color)
+            & > img.glow
+                $glow = drop-shadow(0 0 1px $color)
+                filter $glow $glow $glow $glow $glow
 
         .section-preview-text
             text-shadow 1px 3px 5px rgba(0, 0, 0, 1)
@@ -96,8 +97,9 @@ xl = 1200px
             // img
             //     filter drop-shadow(0 0 5px #fbd05a) !important
 
-            img.shadow
-                filter drop-shadow(0 0 1px $color) drop-shadow(0 0 1px $color) drop-shadow(0 0 1px $color)  drop-shadow(0 0 1px $color)  drop-shadow(0 0 5px $color2) !important
+            img.glow
+                $glow = drop-shadow(0 0 1px $color)
+                filter $glow $glow $glow  $glow  drop-shadow(0 0 5px $color2) !important
 
             .section-preview-text
                 // text-shadow 0 0 17px rgba(251, 208, 90, 0.69)
