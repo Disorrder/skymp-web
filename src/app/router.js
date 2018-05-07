@@ -24,9 +24,6 @@ export default router;
 import store from './store';
 
 router.beforeEach((to, from, next) => {
-    // TODO: get app, auth to vuex
-    console.log(to, to.matched, to.meta);
-
     if (to.meta.needAuth && !store.isAuthenticated) {
         store.dispatch('updateUser')
             .then((res) => {

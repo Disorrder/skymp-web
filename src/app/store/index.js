@@ -71,8 +71,6 @@ var store = new Vuex.Store({
             });
         },
     }
-
-
 });
 
 export default store;

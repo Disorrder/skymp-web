@@ -12,7 +12,8 @@ var schema = new Schema({
     accessLog: [],
     access: {
         isConfirmed: { type: Boolean, default: false },
-        isAdmin: { type: Boolean, default: false },
+        isAdmin: Boolean,
+        isDeveloper: Boolean,
     },
     // Data
     personal: {
