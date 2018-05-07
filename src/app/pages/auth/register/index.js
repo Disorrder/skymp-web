@@ -22,19 +22,21 @@ export default {
             this.$validator.validateAll()
                 .then((res) => {
                     if (!res) throw res;
-                    return $.post(config.api+'/user/add', this.userData)
+                    return $.post(config.api + '/user/add', this.userData)
                 })
                 .then((user) => {
-                    this.$store.commit('login', user);
+                    this.$store.commit('login', this.userData.username);
                     this.$router.push({name: 'profile'});
                     this.$notify({type: 'success', title: 'Добро пожаловать!', text: 'Не забудь подтвердить почту ;)'});
                 })
                 .catch((res) => {
                     if (!res) return;
                     if (res.responseText === 'ERR_USERNAME_BUSY') return this.errors.add({field: 'username', rule: 'unique', msg: true});
-                    if (res.responseText === 'ERR_EMAIL_BUSY') return this.errors.add({field: 'email', rule: 'unique', msg: true});
+                    else if (res.responseText === 'ERR_EMAIL_BUSY') return this.errors.add({field: 'email', rule: 'unique', msg: true});
+                    else if (res.responseText === 'ERR_EMAIL_INCORRECT') return this.errors.add({field: 'email', rule: 'incorrect', msg: true});
+                    else alert('Unknown error occured!');
                 })
-                .always((res) => {
+                .finally((res) => {
                     this.formDisabled = false;
                 })
             ;
@@ -44,7 +46,7 @@ export default {
             return this.$validator.validate(field)
                 .then((res) => {
                     if (!res) throw res;
-                    return $.get(config.api+'/user/check', {[field]: this.userData[field]});
+                    return $.get(config.api + '/user/check', {[field]: this.userData[field]});
                 })
                 .then((res) => {
                     if (res) return this.errors.add({field, rule: 'busy', msg: true});

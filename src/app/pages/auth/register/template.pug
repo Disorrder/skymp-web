@@ -19,6 +19,7 @@ form#register.my-0(@submit.prevent="register")
             @focus="flushErrors('email')" @blur="checkExists('email')"
         )
         small.invalid-feedback(v-if="errors.has('email')")
+            div(v-if="errors.first('email:incorrect')") Неверная почта
             div(v-if="errors.first('email:unique')") Почта уже в системе
 
     .form-group
@@ -44,4 +45,6 @@ form#register.my-0(@submit.prevent="register")
     button.sky-btn.btn.btn-primary(type="submit" style="width: 100%;" :disabled="formDisabled") Создать аккаунт
     
     .form-group.text-center.my-0
-        a.form-text.text-muted(href="javascript:void(0)") Согласие с правилами
+        p.form-text.text-muted Создавая аккаунт, вы соглашаетесь с 
+            strong
+                a(href="javascript:void(0)") правилами
