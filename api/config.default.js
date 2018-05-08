@@ -2,6 +2,7 @@ module.exports = {
     "secretKey": "WhiskeySexAndRocknroll",
     // "db": "mongodb://admin:adminpwd@ds135186.mlab.com:35186/skymp-test",
     "db": "mongodb://admin:adminpwd@ds014578.mlab.com:14578/skymp-test-azure",
+    "ratelimitEnabled": false,
     "redis": "redis://127.0.0.1:6379",
     "mailgun": {
         "domain": "mail.skymp.ru",
