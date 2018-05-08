@@ -36,7 +36,7 @@ export default {
                         case 'ERR_USERNAME_BUSY': return this.errors.add({field: 'username', rule: 'unique', msg: true});
                         case 'ERR_EMAIL_BUSY': return this.errors.add({field: 'email', rule: 'unique', msg: true});
                         case 'ERR_EMAIL_INCORRECT': return this.errors.add({field: 'email', rule: 'incorrect', msg: true});
-                        default: alert('Unknown error occured');
+                        default: alert('Unknown error occurred');
                     }
                 })
                 .finally((res) => {
