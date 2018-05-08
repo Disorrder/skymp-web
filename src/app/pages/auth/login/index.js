@@ -37,7 +37,7 @@ export default {
                         case 'ERR_INCORRECT_USERNAME': return this.errors.add({field: 'username', rule: 'incorrect', msg: true});
                         case 'ERR_INCORRECT_PASSWORD': return this.errors.add({field: 'password', rule: 'incorrect', msg: true});
                         case 'ERR_AUTH_DECLINED': return this.errors.add({field: 'password', rule: 'declined', msg: true});
-                        default: alert('Unknown error occurred');
+                        default: this.$notify({type: 'error', title: 'ERROR', text: 'Unknown error occurred 0_0'});
                     }
                 })
                 .finally((res) => {

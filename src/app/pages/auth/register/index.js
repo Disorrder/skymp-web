@@ -25,7 +25,7 @@ export default {
                     return $.post(config.api + '/user/add', this.userData)
                 })
                 .then((user) => {
-                    this.$store.commit('login', this.userData.username);
+                    this.$store.commit('login', user);
                     this.$router.push({name: 'profile'});
                     this.$notify({type: 'success', title: 'Добро пожаловать!', text: 'Не забудь подтвердить почту ;)'});
                 })
@@ -36,7 +36,7 @@ export default {
                         case 'ERR_USERNAME_BUSY': return this.errors.add({field: 'username', rule: 'unique', msg: true});
                         case 'ERR_EMAIL_BUSY': return this.errors.add({field: 'email', rule: 'unique', msg: true});
                         case 'ERR_EMAIL_INCORRECT': return this.errors.add({field: 'email', rule: 'incorrect', msg: true});
-                        default: alert('Unknown error occurred');
+                        default: this.$notify({type: 'error', title: 'ERROR', text: 'Unknown error occurred 0_0'});
                     }
                 })
                 .finally((res) => {

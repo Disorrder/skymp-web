@@ -38,6 +38,14 @@ schema.methods.verifyPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 };
 
+schema.methods.safe = function () {
+    let safeUser = this;
+    safeUser.confirmToken = undefined;
+    safeUser.resetToken = undefined;
+    safeUser.password = undefined;
+    return safeUser;
+};
+
 schema.pre('save', async function() {
     if (!this.isModified('password')) return;
     this.password = bcrypt.hashSync(this.password, 10); // 10 - salt work factor
