@@ -14,6 +14,11 @@ router.post('/add', async (ctx) => {
     var user = new User(data);
     user.confirmToken = String.randomize(16);
 
+    if (await User.findOne({username: data.username}))
+        return ctx.throw(400, 'ERR_USERNAME_BUSY');
+    if (await User.findOne({email: data.email}))
+        return ctx.throw(400, 'ERR_EMAIL_BUSY');
+
     try {
         await sendEmail.confirmEmail({to: user.email, confirmToken: user.confirmToken, origin: ctx.get('origin')});
     } catch (e) {
@@ -21,11 +26,6 @@ router.post('/add', async (ctx) => {
         console.log('EMAIL ERROR: ' + e);
         return ctx.throw(400, 'ERR_EMAIL_INCORRECT');
     }
-
-    if (await User.findOne({username: data.username}))
-        return ctx.throw(400, 'ERR_USERNAME_BUSY');
-    if (await User.findOne({email: data.email}))
-        return ctx.throw(400, 'ERR_EMAIL_BUSY');
 
     try {
         await user.save();

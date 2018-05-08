@@ -31,10 +31,13 @@ export default {
                 })
                 .catch((res) => {
                     if (!res) return;
-                    if (res.responseText === 'ERR_USERNAME_BUSY') return this.errors.add({field: 'username', rule: 'unique', msg: true});
-                    else if (res.responseText === 'ERR_EMAIL_BUSY') return this.errors.add({field: 'email', rule: 'unique', msg: true});
-                    else if (res.responseText === 'ERR_EMAIL_INCORRECT') return this.errors.add({field: 'email', rule: 'incorrect', msg: true});
-                    else alert('Unknown error occured!');
+
+                    switch (res.responseText) {
+                        case 'ERR_USERNAME_BUSY': return this.errors.add({field: 'username', rule: 'unique', msg: true});
+                        case 'ERR_EMAIL_BUSY': return this.errors.add({field: 'email', rule: 'unique', msg: true});
+                        case 'ERR_EMAIL_INCORRECT': return this.errors.add({field: 'email', rule: 'incorrect', msg: true});
+                        default: alert('Unknown error occured');
+                    }
                 })
                 .finally((res) => {
                     this.formDisabled = false;
