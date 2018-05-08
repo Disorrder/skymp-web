@@ -1,5 +1,6 @@
 const buildCfg = require('../buildconfig.json');
 const cfg = require('./config');
+const ratelimiters = require('./ratelimiters')
 require('./utils');
 
 var mongoose = require('mongoose');
@@ -9,23 +10,7 @@ mongoose.connect(cfg.db);
 const Koa = require('koa');
 const app = new Koa();
 
-const ratelimit = require('koa-ratelimit');
-const Redis = require('ioredis');
-app.use(ratelimit({
-    // documentation: https://github.com/koajs/ratelimit
-    // ограничение: не боллее 100 запросов в секунду от одного IP
-    db: new Redis(),
-    duration: 60000,
-    errorMessage: '<h1>Error 429: Too many requests!</h1>',
-    id: (ctx) => ctx.ip,
-    headers: {
-        remaining: 'Rate-Limit-Remaining',
-        reset: 'Rate-Limit-Reset',
-        total: 'Rate-Limit-Total'
-    },
-    max: 100,
-    disableHeader: false,
-}));
+app.use(ratelimiters.global);
 
 // Common headers
 app.use(async (ctx, next) => {
