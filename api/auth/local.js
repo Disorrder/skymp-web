@@ -1,10 +1,13 @@
 const User = require('../user/model');
+
 var Router = require('koa-router');
 var router = new Router();
 
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
 const sendEmail = require('../email/send');
+
+const ratelimiters = require('../ratelimiters')
 
 passport.use(new LocalStrategy(function(username, password, done) {
     var field = ~username.indexOf('@') ? 'email' : 'username';
@@ -17,18 +20,20 @@ passport.use(new LocalStrategy(function(username, password, done) {
     .catch((e) => done(e));
 }));
 
-router.post('/login', async (ctx) => {
+router.post('/login', ratelimiters.auth, async (ctx) => {
     var data = ctx.request.body;
     var field = ~data.username.indexOf('@') ? 'email' : 'username';
 
     var user = await User.findOne({[field]: data.username}).select('+password');
-    if (!user) return ctx.throw(403, 'ERR_INCORRECT_USERNAME');
-    if (!user.verifyPassword(data.password)) return ctx.throw(401, 'ERR_INCORRECT_PASSWORD');
+    if (!user) {
+        return ctx.throw(401, 'ERR_INCORRECT_USERNAME');
+    }
+    if (!user.verifyPassword(data.password)) {
+        return ctx.throw(401, 'ERR_INCORRECT_PASSWORD');
+    }
 
-    // TODO: remove hash
     ctx.login(user);
-    user.password = null;
-    ctx.body = user;
+    ctx.body = user.safe();
 });
 
 router.post('/reset', async (ctx) => {
@@ -50,7 +55,7 @@ router.post('/reset', async (ctx) => {
     ctx.body = 'Email has been sent.';
 });
 
-router.get('/reset/:token', async (ctx) => {
+router.get('/reset/:token', ratelimiters.auth, async (ctx) => {
     var token = ctx.params.token;
     var user = await User.findOne({resetToken: token});
     if (!user) return ctx.throw(400, 'ERR_INVALID_TOKEN');
@@ -77,7 +82,7 @@ router.post('/reset/:token', async (ctx) => {
     ctx.body = user;
 });
 
-router.get('/confirm/:token', async (ctx) => {
+router.get('/confirm/:token', ratelimiters.auth, async (ctx) => {
     const token = ctx.params.token;
     try {
         var user = await User.findOneAndUpdate({confirmToken: token}, {

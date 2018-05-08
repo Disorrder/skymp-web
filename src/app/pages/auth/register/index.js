@@ -22,7 +22,7 @@ export default {
             this.$validator.validateAll()
                 .then((res) => {
                     if (!res) throw res;
-                    return $.post(config.api+'/user/add', this.userData)
+                    return $.post(config.api + '/user/add', this.userData)
                 })
                 .then((user) => {
                     this.$store.commit('login', user);
@@ -31,10 +31,15 @@ export default {
                 })
                 .catch((res) => {
                     if (!res) return;
-                    if (res.responseText === 'ERR_USERNAME_BUSY') return this.errors.add({field: 'username', rule: 'unique', msg: true});
-                    if (res.responseText === 'ERR_EMAIL_BUSY') return this.errors.add({field: 'email', rule: 'unique', msg: true});
+
+                    switch (res.responseText) {
+                        case 'ERR_USERNAME_BUSY': return this.errors.add({field: 'username', rule: 'unique', msg: true});
+                        case 'ERR_EMAIL_BUSY': return this.errors.add({field: 'email', rule: 'unique', msg: true});
+                        case 'ERR_EMAIL_INCORRECT': return this.errors.add({field: 'email', rule: 'incorrect', msg: true});
+                        default: this.$notify({type: 'error', title: 'ERROR', text: 'Unknown error occurred 0_0'});
+                    }
                 })
-                .always((res) => {
+                .finally((res) => {
                     this.formDisabled = false;
                 })
             ;
@@ -44,7 +49,7 @@ export default {
             return this.$validator.validate(field)
                 .then((res) => {
                     if (!res) throw res;
-                    return $.get(config.api+'/user/check', {[field]: this.userData[field]});
+                    return $.get(config.api + '/user/check', {[field]: this.userData[field]});
                 })
                 .then((res) => {
                     if (res) return this.errors.add({field, rule: 'busy', msg: true});

@@ -14,23 +14,30 @@ router.post('/add', async (ctx) => {
     var user = new User(data);
     user.confirmToken = String.randomize(16);
 
+    if (await User.findOne({username: data.username})) {
+        return ctx.throw(400, 'ERR_USERNAME_BUSY');
+    }
+    if (await User.findOne({email: data.email})) {
+        return ctx.throw(400, 'ERR_EMAIL_BUSY');
+    }
+
+    try {
+        await sendEmail.confirmEmail({to: user.email, confirmToken: user.confirmToken, origin: ctx.get('origin')});
+    } catch (e) {
+        // данная ошибка может возникнуть если, например, email имеет вид test@testdevfortest.nonexistcertainly
+        console.log('EMAIL ERROR: ' + e);
+        return ctx.throw(400, 'ERR_EMAIL_INCORRECT');
+    }
+
     try {
         await user.save();
-        await sendEmail.confirmEmail({to: user.email, confirmToken: user.confirmToken, origin: ctx.get('origin')});
         await ctx.login(user);
     } catch(e) {
-        if (e.code === 11000) {
-            // TODO: recognize from text
-            user = await User.findOne({username: data.username});
-            if (user) return ctx.throw(400, 'ERR_USERNAME_BUSY');
-            return ctx.throw(400, 'ERR_EMAIL_BUSY');
-        } else {
-            console.log('500', '/user/add', e);
-            return ctx.throw(500, e.message);
-        }
-        return;
+        console.log('ERROR message: ' + e.message);
+        console.log('500', '/user/add', e);
+        return ctx.throw(500);
     }
-    ctx.body = user;
+    ctx.body = user.safe();
 });
 
 router.get('/', async (ctx) => {

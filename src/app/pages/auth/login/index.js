@@ -32,8 +32,13 @@ export default {
                 })
                 .catch((res) => {
                     if (!res) return;
-                    if (res.responseText === 'ERR_INCORRECT_USERNAME') return this.errors.add({field: 'username', rule: 'incorrect', msg: true});
-                    if (res.responseText === 'ERR_INCORRECT_PASSWORD') return this.errors.add({field: 'password', rule: 'incorrect', msg: true});
+
+                    if (res.status === 429) return this.errors.add({field: 'password', rule: 'declined', msg: true});
+                    switch (res.responseText) {
+                        case 'ERR_INCORRECT_USERNAME': return this.errors.add({field: 'username', rule: 'incorrect', msg: true});
+                        case 'ERR_INCORRECT_PASSWORD': return this.errors.add({field: 'password', rule: 'incorrect', msg: true});
+                        default: this.$notify({type: 'error', title: 'ERROR', text: 'Unknown error occurred 0_0'});
+                    }
                 })
                 .finally((res) => {
                     this.formDisabled = false;

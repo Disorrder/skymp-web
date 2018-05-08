@@ -18,6 +18,7 @@ form#login.my-0(@submit.prevent="login")
         )
         small.invalid-feedback(v-if="errors.has('password')")
             div(v-if="errors.first('password:incorrect')") Неправильный пароль
+            div(v-if="errors.first('password:declined')") Слишком много попыток входа. Подождите некоторое время.
     
     .buttons.text-center
         button.sky-btn.btn-primary(type="submit" style="min-width: 50%;" :disabled="formDisabled") Войти

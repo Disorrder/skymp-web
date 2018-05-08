@@ -1,5 +1,6 @@
 const buildCfg = require('../buildconfig.json');
 const cfg = require('./config');
+const ratelimiters = require('./ratelimiters')
 require('./utils');
 
 var mongoose = require('mongoose');
@@ -8,6 +9,8 @@ mongoose.connect(cfg.db);
 
 const Koa = require('koa');
 const app = new Koa();
+
+app.use(ratelimiters.global);
 
 // Common headers
 app.use(async (ctx, next) => {
