@@ -1,4 +1,9 @@
 const User = require('../user/model');
+
+const AuthAttempt = require('./model');
+const MAX_AUTH_ATTEMPTS_AMOUNT = 3;
+const AUTH_BAN_TIME = 120; // in seconds
+
 var Router = require('koa-router');
 var router = new Router();
 
@@ -21,11 +26,23 @@ router.post('/login', async (ctx) => {
     var data = ctx.request.body;
     var field = ~data.username.indexOf('@') ? 'email' : 'username';
 
+    let attempt = await AuthAttempt.findOne({ ip: ctx.request.ip });
+    if (!attempt)
+        attempt = new AuthAttempt({ ip: ctx.request.ip, amount: 0 });
+    if (attempt.amount >= MAX_AUTH_ATTEMPTS_AMOUNT && attempt.timeDiff() < AUTH_BAN_TIME)
+        return ctx.throw(403, 'ERR_AUTH_DECLINED');
+
     var user = await User.findOne({[field]: data.username}).select('+password');
-    if (!user) return ctx.throw(403, 'ERR_INCORRECT_USERNAME');
-    if (!user.verifyPassword(data.password)) return ctx.throw(401, 'ERR_INCORRECT_PASSWORD');
+    if (!user)
+        return ctx.throw(401, 'ERR_INCORRECT_USERNAME');
+    if (!user.verifyPassword(data.password)) {
+        attempt.amount++;
+        attempt.save();
+        return ctx.throw(401, 'ERR_INCORRECT_PASSWORD');
+    }
 
     // TODO: remove hash
+    attempt.remove();
     ctx.login(user);
     user.password = null;
     ctx.body = user;

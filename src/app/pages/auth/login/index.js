@@ -32,8 +32,13 @@ export default {
                 })
                 .catch((res) => {
                     if (!res) return;
-                    if (res.responseText === 'ERR_INCORRECT_USERNAME') return this.errors.add({field: 'username', rule: 'incorrect', msg: true});
-                    if (res.responseText === 'ERR_INCORRECT_PASSWORD') return this.errors.add({field: 'password', rule: 'incorrect', msg: true});
+
+                    switch (res.responseText) {
+                        case 'ERR_INCORRECT_USERNAME': return this.errors.add({field: 'username', rule: 'incorrect', msg: true});
+                        case 'ERR_INCORRECT_PASSWORD': return this.errors.add({field: 'password', rule: 'incorrect', msg: true});
+                        case 'ERR_AUTH_DECLINED': return this.errors.add({field: 'password', rule: 'declined', msg: true});
+                        default: alert('Unknown error occurred');
+                    }
                 })
                 .finally((res) => {
                     this.formDisabled = false;

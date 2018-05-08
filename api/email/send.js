@@ -8,8 +8,7 @@ var from = `Гонец SkyMP <courier@${cfg.mailgun.domain}>`;
 function resetPassword(data) {
     var file = path.resolve(__dirname, `./templates/reset-password.pug`);
     var locals = {
-        origin: data.origin,
-        resetToken: data.resetToken,
+        url: `${data.origin}/reset?token=${data.resetToken}`
     };
 
     return mailgun.messages().send({
@@ -23,8 +22,7 @@ function resetPassword(data) {
 function confirmEmail(data) {
     var file = path.resolve(__dirname, `./templates/confirm-email.pug`);
     var locals = {
-        origin: data.origin,
-        confirmToken: data.confirmToken,
+        url: `${data.origin}/auth/confirm?token=${data.confirmToken}`
     };
 
     return mailgun.messages().send({
