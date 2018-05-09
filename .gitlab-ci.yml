@@ -3,42 +3,63 @@ image: node:latest
 cache:
     paths:
         - node_modules/
+        - .build/
+        - api/config.js
+        - src/config.js
 
-# stages:
-#     - build
-#     - deploy
+stages:
+    - build
+    - deploy
 
-# build:
-#     stage: build
-#     environment:
-#         name: staging
-#         url: http://disordered.ru
-#     only:
-#         - dev
-#     script:
-#         - npm i
-#         - npm run build
-    # Add artifacts later, because now it's about 35MB.
-    # artifacts:
-    #     paths:
-    #         - .build/
+# before_script:
+#     - npm i
 
-staging_build_deploy:
-    stage: deploy
-    environment:
-        name: staging
-        url: http://disordered.ru
+# Development
+build:dev:
+    stage: build
     only:
         - dev
+    tags:
+        - dev
     script:
-        # - echo "Building"
         - cp -f /var/www/configs/web.config.js src/config.js
         - cp -f /var/www/configs/api.config.js api/config.js
-        # - cp -f /var/www/configs/buildconfig.json buildconfig.json
         - npm i
         - npm run build
-        # - echo "Deploying"
+
+deploy:dev:
+    stage: deploy
+    only:
+        - dev
+    tags:
+        - dev
+    script:
+        - pm2 reload ecosystem.config.js
         - sudo mkdir -p /var/www/website
-        - sudo rm -rf /var/www/website
+        - sudo cp -rf .build/. /var/www/website
+        - npm run api-pm2
+
+# Production
+build:prod:
+    stage: build
+    only:
+        - master
+    tags:
+        - production
+    script:
+        - cp -f /var/www/configs/web.config.js src/config.js
+        - cp -f /var/www/configs/api.config.js api/config.js
+        - npm i
+        - npm run build
+
+deploy:prod:
+    stage: deploy
+    only:
+        - master
+    tags:
+        - production
+    script:
+        - pm2 reload ecosystem.config.js
+        - sudo mkdir -p /var/www/website
         - sudo cp -rf .build/. /var/www/website
         - npm run api-pm2
