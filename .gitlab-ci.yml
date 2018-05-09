@@ -34,10 +34,9 @@ deploy:dev:
     tags:
         - dev
     script:
-        - pm2 reload ecosystem.config.js
+        - pm2 restart ecosystem.config.js
         - sudo mkdir -p /var/www/website
         - sudo cp -rf .build/. /var/www/website
-        - npm run api-pm2
 
 # Production
 build:prod:
@@ -59,7 +58,6 @@ deploy:prod:
     tags:
         - production
     script:
-        - pm2 reload ecosystem.config.js
+        - pm2 restart ecosystem.config.js
         - sudo mkdir -p /var/www/website
         - sudo cp -rf .build/. /var/www/website
-        - npm run api-pm2
