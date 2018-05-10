@@ -90,4 +90,30 @@ router.put('/:id', async (ctx) => {
     ctx.body = item;
 });
 
+router.get('/:id/play', async (ctx) => {
+    var isOwner = ctx.state.user.characters.some((id) => {
+        return id.equals(ctx.params.id);
+    });
+    if (!isOwner) return ctx.throw(403);
+
+    var item = await Model.findById(ctx.params.id).populate('server');
+    if (!item) return ctx.throw(404);
+
+    let serverUrl = 'http://' + item.server.ip.replace(/:\d+$/, ":10000");
+    let accessToken = {
+        ip: ctx.ip,
+        time: Date.now(),
+        random: String.randomize(8),
+        // random: Math.random().toString(36).substr(2)
+    };
+    accessToken = btoa( JSON.stringify(accessToken) );
+    try {
+        let char = await request.put(serverUrl+`/character/${item.id}`).form({accessToken});
+    } catch(e) {
+        console.log('/play', char, e);
+        return ctx.throw(500);
+    }
+    ctx.body = accessToken;
+});
+
 module.exports = router;
