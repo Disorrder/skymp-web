@@ -39,7 +39,6 @@
     "minimist": "^1.2.0",
     "mongoose": "^5.0.14",
     "passport-local": "^1.0.0",
-    "popper.js": "^1.14.3",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
     "vee-validate": "^2.0.8",
@@ -51,8 +50,7 @@
   "scripts": {
     "api": "nodemon api",
     "dev": "webpack-dev-server --progress",
-    "build": "webpack --mode production",
-    "api-pm2": "pm2 restart ecosystem.config.js"
+    "build": "webpack --mode production"
   },
   "engine": {
     "node": ">=9.0.0"

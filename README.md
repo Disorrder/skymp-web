@@ -8,19 +8,21 @@ You need to run two process simultaneously:
 `npm run api`
 
 ### global deps (if need, usually for dev on windows)
-`npm i -g webpack webpack-dev-server pm2 nodemon`
+`npm i -g webpack webpack-cli webpack-dev-server nodemon pm2`
 
-
-## Staging
+# VPS install
+### Gitlab CI/CD
 Gitlab-runner стирает файлы, которых не должно лежать в репозитории, в т.ч. node_modules и конфиги.  
 Перед тем, как начать, необходимо создать папку с конфигом  
 `mkdir -p /var/www/configs/`  
 И записать в неё 2 файла:  
-`touch /var/www/configs/web.config.js && touch /var/www/configs/api.config.js`
+<!-- `touch /var/www/configs/web.config.js && touch /var/www/configs/api.config.js` -->
+ - `cp -f src/config.default.js /var/www/configs/web.config.js`
+ - `cp -f api/config.default.js /var/www/configs/api.config.js`
 
-
-## Production
-`npm run build` - Build with Webpack
+### Nginx update
+`cp -f src/website.conf /etc/nginx/sites-enabled/website.conf`
+`nginx -s reload`
 
 
 # API
