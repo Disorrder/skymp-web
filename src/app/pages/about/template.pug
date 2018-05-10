@@ -3,6 +3,11 @@ if !data
 
 div#about
     main
+        b-nav.scrollspy(v-b-scrollspy)
+            for item in data.sections
+                b-nav-item(href='#' + item.name)
+                    img(src=item.icon)
+                                              
         section#begin.section.pb-4: .container
             div.row: .col-12.text-center
                 h1.section-header.bg-clip-text Особенности проекта

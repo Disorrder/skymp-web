@@ -49,6 +49,35 @@ xl = 1200px
             background-image linear-gradient(to top, #e5c35a 0%, #fff 100%)
             filter drop-shadow(1px 2px 3px #000)
 
+    ul.scrollspy
+        position fixed
+        left 10px
+        top calc(50% - 300px)
+        border: 0 4px
+        border-style: solid
+        border-image linear-gradient(#EBEFF000, #EBEFFCCC, #EBEFF000) 1
+        width 85px
+        height 600px
+        background linear-gradient(#CECFCA00, #CECFCACC, #CECFCA00)
+        z-index 100
+
+        a
+            padding 10px
+            opacity 0.5
+            filter drop-shadow(3px 3px 3px black)
+            transition filter 0.2s ease
+
+        img
+            filter brightness(200)
+            width 100%
+
+        a.active
+            opacity 1
+            filter drop-shadow(5px 5px 5px black)
+
+        a:hover
+            opacity 1
+            filter drop-shadow(7px 7px 7px black)
 
 // -- sections --
 #begin
