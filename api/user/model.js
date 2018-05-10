@@ -12,8 +12,9 @@ var schema = new Schema({
     accessLog: [],
     access: {
         isConfirmed: { type: Boolean, default: false },
-        isAdmin: Boolean,
         isDeveloper: Boolean,
+        isAdmin: Boolean,
+        isTester: Boolean,
     },
     // Data
     personal: {
@@ -25,6 +26,7 @@ var schema = new Schema({
     charactersMax: { type: Number, default: 1 },
     skyPoints: { type: Number, default: 0 },
     gifts: [],
+    achievements: [],
     // Social networks
     vk: Schema.Types.Mixed,
     fb: Schema.Types.Mixed,

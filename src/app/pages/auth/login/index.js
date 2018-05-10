@@ -37,7 +37,7 @@ export default {
                     switch (res.responseText) {
                         case 'ERR_INCORRECT_USERNAME': return this.errors.add({field: 'username', rule: 'incorrect', msg: true});
                         case 'ERR_INCORRECT_PASSWORD': return this.errors.add({field: 'password', rule: 'incorrect', msg: true});
-                        default: this.$notify({type: 'error', title: 'ERROR', text: 'Unknown error occurred 0_0'});
+                        default: this.$notify({type: 'error', title: 'ERROR', text: `${res.status}: ${res.responseText}`});
                     }
                 })
                 .finally((res) => {

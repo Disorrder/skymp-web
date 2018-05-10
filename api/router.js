@@ -17,6 +17,9 @@ var router = new Router();
 
     route = require('./email');
     router.use('/email', route.routes(), route.allowedMethods());
+
+    route = require('./invite');
+    router.use('/invite', route.routes(), route.allowedMethods());
 }
 
 router.get('/', (ctx, next) => {

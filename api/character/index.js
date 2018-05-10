@@ -12,26 +12,25 @@ router.use((ctx, next) => {
 router.post('/add', async (ctx) => {
     // Create one
     if (ctx.state.user.characters.length >= ctx.state.user.charactersMax) ctx.throw(403);
+    var access = ctx.state.user.access;
+    if (!access.isTester) ctx.throw(403, 'ERR_NO_ACCESS');
 
     var data = ctx.request.body;
     data.owner = ctx.state.user._id.toString();
 
-    if (["::1"].includes(ctx.ip)) {
-        var server = {
-            ip: "localhost:10000"
-        };
-    } else {
-        var server = await Server.findById(data.server);
-        if (!server) return ctx.throw(400, 'ERR_INVALID_SERVER');
-    }
+    var server = await Server.findById(data.server);
+    if (!server) return ctx.throw(400, 'ERR_INVALID_SERVER');
     let serverUrl = 'http://' + server.ip.replace(/:\d+$/, ":10000");
     console.log(serverUrl);
 
     try {
+        console.log('CREATE CHAR', data);
         var char = await request.post(serverUrl+'/character/add').form(data);
+        console.log('CREATED CHAR', char);
         char = JSON.parse(char);
-        // var item = new Model(char);
-        // item.save();
+        var item = new Model(char);
+        console.log('CREATED CHAR CACHE', item);
+        item.save();
         ctx.state.user.characters.push(char._id);
         ctx.state.user.save();
     } catch (e) {

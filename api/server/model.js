@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
     name: {type: String, require: true, unique: true},
-    type: String, // one of 'local', 'alpha', 'beta', 'production'
+    type: String, // one of 'alpha', 'beta', 'production'
     ip: String,
     maxPlayers: Number,
 }, { timestamps: true, strict: false });

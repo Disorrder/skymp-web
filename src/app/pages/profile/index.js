@@ -16,6 +16,8 @@ export default {
             },
             character: null,
 
+            inviteCode: null,
+
             // character creation modal
             characterData: {},
             modalCharacter: {
@@ -25,11 +27,16 @@ export default {
                     name: null,
                     server: null
                 },
+            },
+
+            // Admin panel
+            admin: {
+                generatedInvite: null,
             }
         }
     },
     computed: {
-        // user() { return this.$store.state.user; },
+        user() { return this.$store.state.user; },
         characters() { return this.$store.state.characters; },
         serverList() { return this.$store.state.servers; },
 
@@ -97,6 +104,24 @@ export default {
             ;
         },
 
+        activateInvite() {
+            this.flushErrors('invite');
+            $.get(config.api+'/invite/activate/'+this.inviteCode)
+                .then((res) => {
+                    this.$store.dispatch('updateUser');
+                    this.$store.dispatch('updateServers');
+                })
+                .catch((res) => {
+                    switch (res.responseText) {
+                        case 'Not Found': return this.errors.add({field: 'invite', rule: 'incorrect', msg: true});
+                        case 'ERR_CODE_ACTIVATED': return this.errors.add({field: 'invite', rule: 'activated', msg: true});
+                        case 'ERR_ALREADY_TESTER': return this.errors.add({field: 'invite', rule: 'tester', msg: true});
+                        default: this.$notify({type: 'error', title: 'ERROR', text: `${res.status}: ${res.responseText}`});
+                    }
+                })
+            ;
+        },
+
         // create modal
         flushErrors(selector) {
             if (!selector) return this.errors.clear();
@@ -118,6 +143,13 @@ export default {
 
         notifySoon() {
             this.$notify({ title: "Скоро!" });
+        },
+
+        // Admin panel
+        generateInvite() {
+            $.get(config.api+'/invite/generate').then((code) => {
+                this.admin.generatedInvite = code;
+            });
         }
     },
     created() {
@@ -126,7 +158,7 @@ export default {
             this.$store.dispatch('updateServers'),
         ]).then((res) => {
             this.selectCharacter(this.characters[0]);
-            if (!this.characters.length) this.modalCharacterOpen();
+            if (!this.characters.length && this.serverList.length) this.modalCharacterOpen();
         });
     }
 };
