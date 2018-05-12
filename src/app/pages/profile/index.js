@@ -1,6 +1,7 @@
 import './style.styl';
 
-var defPhoto = require('./assets/profile-test-photo.png');
+var photoTest = require('./assets/profile-photo-test.png');
+var photoEmpty = require('./assets/profile-photo-empty.png');
 
 const races = ["Имперец", ""];
 const classes = ["Воин", ""];
@@ -10,7 +11,7 @@ export default {
     data() {
         return {
             emptyCharacter: {
-                photo: defPhoto,
+                photo: photoEmpty,
                 money: 0,
                 reputation: 0
             },
@@ -64,7 +65,7 @@ export default {
     methods: {
         selectCharacter(char) {
             this.character = char || this.emptyCharacter;
-            if (!this.character.photo) this.character.photo = defPhoto;
+            if (!this.character.photo) this.character.photo = photoTest;
         },
 
         modalCharacterOpen() {
