@@ -17,13 +17,18 @@ Gitlab-runner стирает файлы, которых не должно леж
 `mkdir -p /var/www/configs/`  
 И записать в неё 2 файла:  
 <!-- `touch /var/www/configs/web.config.js && touch /var/www/configs/api.config.js` -->
- - `cp -f src/config.default.js /var/www/configs/web.config.js`
- - `cp -f api/config.default.js /var/www/configs/api.config.js`
+ - `cp -f src/config.default.js /var/www/configs/web.config.js`  
+ - `cp -f api/config.default.js /var/www/configs/api.config.js`  
 
 ### Nginx update
-`cp -f src/website.conf /etc/nginx/sites-enabled/website.conf`
-`nginx -s reload`
+`cp -f src/website.conf /etc/nginx/sites-enabled/website.conf`  
+`nginx -s reload`  
 
+<!-- ### Secret
+при первом запуске надо установить гит `apt-get install git`  
+а так же дать sudo пользователю gitlab-runner:  
+`sudo visudo`  
+В конец файла вставить `gitlab-runner ALL=(ALL) NOPASSWD: ALL`   -->
 
 # API
 `npm run api` - dev startup
