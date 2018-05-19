@@ -10,7 +10,7 @@ Vue.component('navbar', {
                 {name: 'forum', title: 'Форум', url: 'http://forum.skymp.ru/'},
                 {name: 'about', title: 'Особенности'},
                 // {name: 'support', url: '#support', title: 'Поддержка', enabled: false},
-                {name: 'shop', url: '#shop', title: 'Магазин', enabled: false},
+                {name: 'shop', title: 'Магазин', enabled: !false},
                 {name: 'profile', title: 'Профиль', enabled: true},
             ]
         }

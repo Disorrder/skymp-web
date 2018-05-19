@@ -1,0 +1,16 @@
+div#charge.content
+    header.container: .row: .col.text-center
+        h1 Пополнение счёта
+
+    main.container
+        .row
+            .col-3
+                b-card.shop-item(@click="charge(100 /10000)") charge 100
+            .col-3
+                b-card.shop-item(@click="charge(300 /10000)") charge 300
+            .col-3
+                b-card.shop-item(@click="charge(500 /10000)") charge 500
+            .col-3
+                b-card.shop-item(@click="charge(1000 /10000)") charge 1000
+            .col-3
+                b-card.shop-item(@click="charge(0.02)") charge Any!

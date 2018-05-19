@@ -7,6 +7,8 @@ var router = new VueRouter({
     routes: [
         {name: 'main', path: '/', component: require('app/pages/main').default},
         {name: 'about', path: '/about', component: require('app/pages/about').default},
+        {name: 'shop', path: '/shop', component: require('app/pages/shop').default},
+        {name: 'charge', path: '/charge', meta: {needAuth: !true}, component: require('app/pages/charge').default},
 
         {name: 'auth', path: '', component: require('app/pages/auth').default, children: [
             {name: 'login', path: '/login', component: require('app/pages/auth/login').default},
