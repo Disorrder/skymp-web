@@ -31,6 +31,7 @@ router.get('s', async (ctx) => {
 });
 
 router.get('/:id', async (ctx) => {
+    var id = ctx.params.id;
     var item = await Model.findById(id);
     if (!item) return ctx.throw(404);
     ctx.body = item;

@@ -20,6 +20,9 @@ var router = new Router();
 
     route = require('./invite');
     router.use('/invite', route.routes(), route.allowedMethods());
+
+    route = require('./payment');
+    router.use('/payment', route.routes(), route.allowedMethods());
 }
 
 router.get('/', (ctx, next) => {

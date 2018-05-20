@@ -3,14 +3,32 @@ div#charge.content
         h1 Пополнение счёта
 
     main.container
-        .row
+        .row.justify-content-center
             .col-3
-                b-card.shop-item(@click="charge(100 /10000)") charge 100
+                a.charge-item(:href="'/payment/create/0.01' | apiUrl" target="_blank")
+                    b-card.sky-card.text-center
+                        h4 100 SkyPoints
+                        h5 100 рублей
             .col-3
-                b-card.shop-item(@click="charge(300 /10000)") charge 300
+                a.charge-item(:href="'/payment/create/0.03' | apiUrl" target="_blank")
+                    b-card.sky-card.text-center
+                        h4 300 SkyPoints
+                        h5 300 рублей
             .col-3
-                b-card.shop-item(@click="charge(500 /10000)") charge 500
-            .col-3
-                b-card.shop-item(@click="charge(1000 /10000)") charge 1000
-            .col-3
-                b-card.shop-item(@click="charge(0.02)") charge Any!
+                a.charge-item(:href="'/payment/create/0.05' | apiUrl" target="_blank")
+                    b-card.sky-card.text-center
+                        h4 500 SkyPoints
+                        h5 500 рублей
+                    
+        .row.justify-content-center.mt-4
+            .col-6
+                b-card.sky-card(title="Другая сумма")
+                    form.form-group.d-flex(@submit.prevent="onSubmit")
+                        currency-input.form-control.sky-input(v-model="chargeAmount")
+                        //- input.form-control.sky-input(v-model="chargeAmount")
+                        a.btn.sky-btn.btn-primary#charge-amount-link(:href="'/payment/create/'+chargeAmount | apiUrl" target="_blank") Пополнить
+                        
+                    .form-group.pl-2
+                        span {{chargeAmount}}
+                        span  рублей
+                    //- h3.sky-header Другая сумма
