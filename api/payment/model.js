@@ -4,7 +4,9 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
     status: String,
     user: {type: Schema.Types.ObjectId, ref: 'User', require: true},
-    amount: Number,
+    amount: Number, // скайпоинты
+    sum: Number, // рубли
+    currency: {type: String, default: 'RUB'},
     profit: {type: Number, select: false},
     data: Schema.Types.Mixed,
 }, { timestamps: true });
